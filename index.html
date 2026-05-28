@@ -1,0 +1,1143 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>NDU · Tecnologia. Per il mercato italiano.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&display=swap" rel="stylesheet" />
+<style>
+  /* =========================
+     TOKENS
+     ========================= */
+  :root {
+    --ink: #000000;
+    --ink-2: #0d0d0d;
+    --ink-3: #1a1a1a;
+    --bg: #000000;
+    --bg-light: #0f0f0f;
+    --card: #111111;
+    --white: #ffffff;
+    --white-soft: rgba(255,255,255,0.78);
+    --ink-mute: rgba(255,255,255,0.55);
+    --line: rgba(255,255,255,0.12);
+    --line-lime: rgba(229,255,53,0.25);
+    --lime: #E5FF35;
+    --lime-dark: #b8cc24;
+    --lime-soft: rgba(229,255,53,0.15);
+    /* legacy aliases per compatibilità */
+    --navy: #000000;
+    --navy-soft: #1a1a1a;
+    --acid: #E5FF35;
+    --acid-dark: #b8cc24;
+    --azure: #ffffff;
+    --rose: #E5FF35;
+    --teal: #ffffff;
+    --purple: #E5FF35;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--white);
+    font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  a { color: inherit; text-decoration: none; }
+  button { font: inherit; cursor: pointer; border: 0; background: none; color: inherit; }
+  .container { max-width: 1280px; margin: 0 auto; padding: 0 40px; }
+
+  /* =========================
+     NAV
+     ========================= */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(0,0,0,0.82);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-inner {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 22px 0;
+  }
+  .logo {
+    display: flex; align-items: baseline; gap: 8px;
+    font-weight: 800; font-size: 22px; letter-spacing: -0.02em;
+    color: var(--white);
+  }
+  .logo .shield {
+    width: 22px; height: 26px;
+    background: var(--lime);
+    clip-path: polygon(50% 0%, 100% 0, 100% 65%, 50% 100%, 0 65%, 0 0);
+    display: inline-block;
+    margin-right: 2px;
+    position: relative;
+    top: 4px;
+  }
+  .logo .tag {
+    font-size: 13px; font-weight: 500;
+    color: rgba(255,255,255,0.6);
+    letter-spacing: 0;
+  }
+  .nav-links {
+    display: flex; gap: 32px;
+    font-size: 15px; font-weight: 500;
+  }
+  .nav-links a {
+    color: var(--white);
+    opacity: 0.85;
+    transition: opacity .2s, color .2s;
+    display: inline-flex; align-items: center; gap: 4px;
+  }
+  .nav-links a::after {
+    content: '▾';
+    font-size: 9px;
+    color: var(--ink-mute);
+  }
+  .nav-links a.plain::after { display: none; }
+  .nav-links a:hover { color: var(--lime); opacity: 1; }
+
+  .nav-side {
+    display: flex; align-items: center; gap: 14px;
+  }
+  .lang-pill {
+    display: inline-flex; align-items: center; gap: 0;
+    padding: 4px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+    background: rgba(255,255,255,0.04);
+    color: var(--white);
+  }
+  .lang-pill .opt {
+    padding: 5px 12px;
+    border-radius: 999px;
+    cursor: pointer;
+    color: rgba(255,255,255,0.5);
+  }
+  .lang-pill .opt.active {
+    background: var(--lime);
+    color: var(--ink);
+  }
+
+  .btn-pill {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 12px 22px;
+    background: var(--lime);
+    color: var(--ink);
+    border-radius: 999px;
+    font-size: 14px; font-weight: 700;
+    letter-spacing: -0.01em;
+    transition: all .25s;
+  }
+  .btn-pill:hover { background: var(--white); }
+  .btn-pill .arrow {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: var(--ink);
+    color: var(--lime);
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 12px;
+    margin-right: -8px;
+  }
+  .btn-pill.dark {
+    background: transparent;
+    color: var(--white);
+    border: 1px solid var(--white);
+  }
+  .btn-pill.dark:hover {
+    background: var(--white);
+    color: var(--ink);
+  }
+  .btn-pill.dark .arrow {
+    background: var(--white);
+    color: var(--ink);
+  }
+  .btn-pill.dark:hover .arrow {
+    background: var(--ink);
+    color: var(--white);
+  }
+
+  /* =========================
+     BLOBS DECORATIVI
+     ========================= */
+  .blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(100px);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .blob-acid    { background: var(--lime);    opacity: 0.25; }
+  .blob-azure   { background: var(--lime);    opacity: 0.15; }
+  .blob-rose    { background: var(--lime);    opacity: 0.18; }
+  .blob-teal    { background: var(--lime);    opacity: 0.12; }
+  .blob-purple  { background: var(--lime);    opacity: 0.2;  }
+
+  /* =========================
+     HERO
+     ========================= */
+  .hero {
+    position: relative;
+    padding: 60px 0 100px;
+    overflow: hidden;
+  }
+  .hero .blob.b1 { width: 600px; height: 600px; top: -100px;  left: -100px;  }
+  .hero .blob.b2 { width: 500px; height: 500px; top: 50px;    right: -150px; background: var(--azure); opacity: 0.35; }
+  .hero .blob.b3 { width: 400px; height: 400px; bottom: 100px; left: 30%;    background: var(--teal); opacity: 0.4; }
+  .hero-inner {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding-top: 40px;
+  }
+  .hero h1 {
+    font-size: clamp(64px, 9vw, 144px);
+    font-weight: 700;
+    letter-spacing: -0.045em;
+    line-height: 0.96;
+    color: var(--white);
+  }
+  .hero h1 .italic {
+    font-style: italic;
+    font-weight: 500;
+    color: var(--lime);
+  }
+  .hero-cta {
+    margin-top: 40px;
+    display: flex; gap: 12px;
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* ===== HERO collage (cerchio mosaico) ===== */
+  .hero-collage {
+    margin: 60px auto 0;
+    width: 640px; max-width: 90%;
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    overflow: hidden;
+    position: relative;
+    background: var(--ink);
+    border: 1px solid var(--line-lime);
+    box-shadow: 0 0 80px rgba(229,255,53,0.25), 0 30px 100px rgba(0,0,0,0.6);
+  }
+  .hero-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+  }
+  .collage-overlay {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at 50% 50%, transparent 60%, rgba(0,0,0,0.4) 100%);
+    pointer-events: none;
+    z-index: 2;
+  }
+  .hero-collage::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.3 0'/></filter><rect width='200' height='200' filter='url(%23n)'/></svg>");
+    opacity: 0.25;
+    mix-blend-mode: overlay;
+  }
+  /* dot patterns dentro al collage */
+  .collage-dots {
+    position: absolute; inset: 0;
+    background-image: radial-gradient(rgba(255,255,255,0.4) 1.5px, transparent 2px);
+    background-size: 22px 22px;
+    mix-blend-mode: overlay;
+  }
+  /* divisori radiali interni (linea verticale + orizzontale per dare l'effetto 4 quadranti) */
+  .collage-cross {
+    position: absolute; inset: 0;
+    pointer-events: none;
+  }
+  .collage-cross::before,
+  .collage-cross::after {
+    content: '';
+    position: absolute;
+    background: rgba(229,255,53,0.4);
+  }
+  .collage-cross::before {
+    top: 0; bottom: 0; left: 50%; width: 2px;
+  }
+  .collage-cross::after {
+    left: 0; right: 0; top: 50%; height: 2px;
+  }
+  /* sfere fluttuanti interne */
+  .collage-orb {
+    position: absolute;
+    border-radius: 50%;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+  }
+  .collage-orb.o1 {
+    width: 90px; height: 90px;
+    top: 15%; left: 22%;
+    background: radial-gradient(circle at 30% 30%, #f8ff70 0%, #E5FF35 50%, #7a8a0d 100%);
+    box-shadow: 0 0 40px rgba(229,255,53,0.5);
+  }
+  .collage-orb.o2 {
+    width: 120px; height: 120px;
+    top: 32%; left: 10%;
+    background: radial-gradient(circle at 30% 30%, #303030 0%, #1a1a1a 60%, #000 100%);
+    border: 1px solid var(--lime);
+  }
+  .collage-orb.o3 {
+    width: 70px; height: 70px;
+    top: 62%; left: 30%;
+    background: radial-gradient(circle at 30% 30%, #f0ff80 0%, #E5FF35 70%);
+    box-shadow: 0 0 30px rgba(229,255,53,0.6);
+  }
+  .collage-square {
+    position: absolute;
+    background: var(--lime);
+    box-shadow: 0 0 12px rgba(229,255,53,0.5);
+  }
+  .collage-square.s1 { width: 14px; height: 14px; top: 22%; left: 60%; }
+  .collage-square.s2 { width: 18px; height: 18px; top: 28%; left: 67%; }
+  .collage-square.s3 { width: 12px; height: 12px; top: 32%; left: 56%; }
+  .collage-square.s4 { width: 16px; height: 16px; top: 38%; left: 62%; }
+  .collage-square.s5 { width: 10px; height: 10px; top: 70%; left: 70%; }
+  .collage-square.s6 { width: 14px; height: 14px; top: 76%; left: 65%; }
+  /* play button */
+  .collage-play {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100px; height: 100px;
+    background: var(--lime);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--ink);
+    font-size: 30px;
+    cursor: pointer;
+    box-shadow: 0 0 60px rgba(229,255,53,0.5);
+  }
+  .collage-play-label {
+    position: absolute;
+    top: calc(50% + 70px); left: 50%;
+    transform: translateX(-50%);
+    background: var(--ink);
+    color: var(--white);
+    padding: 7px 18px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+    border: 1px solid var(--line);
+  }
+
+  /* =========================
+     SECTION "WE BELIEVE"
+     ========================= */
+  section { padding: 120px 0; position: relative; overflow: hidden; }
+  .eyebrow {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--lime);
+    margin-bottom: 28px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .eyebrow::before {
+    content: '';
+    width: 28px; height: 1px;
+    background: var(--lime);
+  }
+  .belief {
+    position: relative;
+    border-top: 1px solid var(--line);
+  }
+  .belief .blob.left { width: 500px; height: 500px; top: 30%; left: -180px; background: var(--lime); opacity: 0.2; }
+  .belief .container {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+  .belief h2 {
+    font-size: clamp(44px, 5.5vw, 76px);
+    font-weight: 700;
+    letter-spacing: -0.035em;
+    line-height: 1.04;
+    color: var(--white);
+  }
+  .belief h2 .italic {
+    font-style: italic;
+    font-weight: 500;
+    color: var(--lime);
+  }
+  .belief-side p {
+    font-size: 16px;
+    color: var(--white-soft);
+    line-height: 1.65;
+    padding-top: 100px;
+  }
+
+  /* =========================
+     CAPABILITY CARDS (numerate)
+     ========================= */
+  .caps {
+    padding-top: 40px;
+  }
+  .cap-card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 28px;
+    padding: 48px 48px 56px;
+    margin-bottom: 16px;
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 60px;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    transition: border-color .25s;
+  }
+  .cap-card:hover { border-color: var(--line-lime); }
+  .cap-card .cap-meta {
+    display: flex;
+    align-items: baseline;
+    gap: 32px;
+    margin-bottom: 60px;
+  }
+  .cap-card .cap-num {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--lime);
+    min-width: 24px;
+    letter-spacing: 0.06em;
+  }
+  .cap-card .cap-eyebrow {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--white);
+  }
+  .cap-card .cap-body h3 {
+    font-size: clamp(28px, 3vw, 40px);
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    line-height: 1.1;
+    color: var(--white);
+    margin-bottom: 16px;
+    max-width: 600px;
+  }
+  .cap-card .cap-body h3 .italic {
+    font-style: italic;
+    font-weight: 500;
+    color: var(--lime);
+  }
+  .cap-card .cap-body p {
+    font-size: 16px;
+    color: var(--white-soft);
+    line-height: 1.65;
+    max-width: 600px;
+    margin-bottom: 28px;
+  }
+  .cap-card .cap-body p strong {
+    color: var(--white);
+    font-weight: 700;
+  }
+
+  /* Cerchi visivi a destra delle card */
+  .cap-visual {
+    width: 280px; height: 280px;
+    border-radius: 50%;
+    margin-left: auto;
+    position: relative;
+    overflow: hidden;
+    background: var(--ink);
+    border: 1px solid var(--line-lime);
+    box-shadow: 0 0 60px rgba(229,255,53,0.1);
+  }
+  /* v1 — sphere lime */
+  .cap-visual.v1 {
+    background: radial-gradient(circle at 30% 30%, var(--lime) 0%, #7a8a0d 50%, #000 100%);
+    box-shadow: 0 0 80px rgba(229,255,53,0.4);
+  }
+  .cap-visual.v1::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image: repeating-radial-gradient(
+      circle at 30% 30%,
+      transparent 0,
+      transparent 6px,
+      rgba(0,0,0,0.15) 6px,
+      rgba(0,0,0,0.15) 7px,
+      transparent 7px,
+      transparent 16px
+    );
+  }
+  /* v2 — grid 3D */
+  .cap-visual.v2 {
+    background: var(--ink);
+  }
+  .cap-visual.v2::before {
+    content: '';
+    position: absolute;
+    top: 20%; left: 10%;
+    width: 80%; height: 60%;
+    background-image:
+      linear-gradient(var(--lime) 1px, transparent 1px),
+      linear-gradient(90deg, var(--lime) 1px, transparent 1px);
+    background-size: 14px 14px;
+    opacity: 0.5;
+    transform: perspective(400px) rotateX(60deg);
+  }
+  .cap-visual.v2::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60px; height: 60px;
+    border-radius: 50%;
+    background: var(--lime);
+    box-shadow: 0 0 60px var(--lime);
+  }
+  /* v3 — radial rings */
+  .cap-visual.v3 {
+    background: radial-gradient(circle at 50% 50%, #1a1a1a 0%, #000 100%);
+  }
+  .cap-visual.v3::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image:
+      radial-gradient(circle at 50% 50%, transparent 20%, var(--lime) 21%, var(--lime) 22%, transparent 23%),
+      radial-gradient(circle at 50% 50%, transparent 35%, var(--lime) 36%, var(--lime) 37%, transparent 38%),
+      radial-gradient(circle at 50% 50%, transparent 50%, var(--lime) 51%, var(--lime) 52%, transparent 53%),
+      radial-gradient(circle at 50% 50%, transparent 65%, var(--lime) 66%, var(--lime) 67%, transparent 68%);
+    opacity: 0.6;
+  }
+  .cap-visual.v3::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    background: var(--lime);
+    box-shadow: 0 0 40px var(--lime);
+  }
+  /* v4 — orbits */
+  .cap-visual.v4 {
+    background: radial-gradient(circle at 50% 50%, #1a1a1a 0%, #000 100%);
+  }
+  .cap-visual.v4::before {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%; height: 80%;
+    border: 1px solid var(--lime);
+    border-radius: 50%;
+    opacity: 0.4;
+  }
+  .cap-visual.v4::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 55%; height: 55%;
+    border: 1px solid var(--lime);
+    border-radius: 50%;
+    opacity: 0.6;
+    box-shadow: inset 0 0 30px rgba(229,255,53,0.1);
+  }
+
+  /* =========================
+     OUR WORK
+     ========================= */
+  .work {
+    background: var(--bg);
+    padding-bottom: 60px;
+    position: relative;
+    border-top: 1px solid var(--line);
+  }
+  .work .blob.lblob {
+    width: 600px; height: 600px;
+    bottom: -200px; right: -150px;
+    background: var(--lime); opacity: 0.15;
+  }
+  .work-head {
+    display: grid;
+    grid-template-columns: 1.4fr auto;
+    gap: 40px;
+    align-items: end;
+    margin-bottom: 56px;
+  }
+  .work-head h2 {
+    font-size: clamp(44px, 5.5vw, 76px);
+    font-weight: 700;
+    letter-spacing: -0.035em;
+    line-height: 1.02;
+    color: var(--white);
+  }
+  .work-head h2 .italic {
+    font-style: italic;
+    font-weight: 500;
+    color: var(--lime);
+  }
+  .work-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 16px;
+  }
+  .work-card {
+    border-radius: 24px;
+    padding: 40px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    min-height: 320px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: border-color .25s, transform .25s;
+    color: var(--white);
+  }
+  .work-card:hover { border-color: var(--line-lime); transform: translateY(-4px); }
+  .work-card.feature {
+    background: var(--lime);
+    color: var(--ink);
+    border-color: var(--lime);
+  }
+  .work-card.feature:hover { background: var(--white); }
+  .work-card .wc-label {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    opacity: 0.7;
+    margin-bottom: 12px;
+  }
+  .work-card .wc-title {
+    font-size: clamp(24px, 2.6vw, 36px);
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    line-height: 1.1;
+  }
+  .work-card .wc-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    margin-top: 40px;
+  }
+  .work-card .wc-tag {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    opacity: 0.7;
+  }
+  .work-card .wc-arrow {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background: var(--lime);
+    color: var(--ink);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+  }
+  .work-card.feature .wc-arrow { background: var(--ink); color: var(--lime); }
+
+  /* =========================
+     OUR BRANDS (mini)
+     ========================= */
+  .brands {
+    text-align: center;
+    padding: 80px 0;
+    border-top: 1px solid var(--line);
+  }
+  .brands h3 {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--lime);
+    margin-bottom: 32px;
+  }
+  .brand-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  .brand-card {
+    aspect-ratio: 1.1 / 1;
+    border-radius: 20px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    padding: 28px 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    text-align: left;
+    transition: all .25s;
+  }
+  .brand-card:hover {
+    border-color: var(--line-lime);
+    transform: translateY(-4px);
+  }
+  .brand-card h4 {
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--white);
+  }
+  .brand-card p {
+    font-size: 13px;
+    color: var(--white-soft);
+    line-height: 1.5;
+  }
+
+  /* =========================
+     CTA STRIP FINALE
+     ========================= */
+  .cta-strip {
+    background: var(--lime);
+    color: var(--ink);
+    padding: 120px 0;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .cta-strip h2 {
+    font-size: clamp(48px, 6.5vw, 96px);
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    line-height: 1.0;
+    max-width: 1000px;
+    margin: 0 auto 32px;
+    position: relative;
+    z-index: 2;
+  }
+  .cta-strip h2 .italic {
+    font-style: italic;
+    font-weight: 500;
+  }
+  .cta-strip p {
+    font-size: 18px;
+    color: rgba(0,0,0,0.65);
+    max-width: 600px;
+    margin: 0 auto 40px;
+    position: relative;
+    z-index: 2;
+  }
+  .cta-strip .btn-pill {
+    background: var(--ink);
+    color: var(--white);
+    position: relative;
+    z-index: 2;
+    font-size: 15px;
+    padding: 14px 28px;
+  }
+  .cta-strip .btn-pill:hover { background: var(--white); color: var(--ink); }
+  .cta-strip .btn-pill .arrow { background: var(--lime); color: var(--ink); }
+  .cta-strip .btn-pill:hover .arrow { background: var(--ink); color: var(--lime); }
+
+  /* =========================
+     FOOTER
+     ========================= */
+  footer {
+    background: var(--ink);
+    color: rgba(255,255,255,0.7);
+    padding: 80px 0 32px;
+    border-top: 1px solid var(--line);
+  }
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 60px;
+  }
+  .footer-brand .logo { color: white; }
+  .footer-brand .logo .tag { color: rgba(255,255,255,0.6); }
+  .footer-brand p {
+    margin-top: 18px;
+    font-size: 14px;
+    line-height: 1.6;
+    max-width: 320px;
+  }
+  .footer-col h5 {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--lime);
+    margin-bottom: 18px;
+  }
+  .footer-col a {
+    display: block;
+    padding: 5px 0;
+    font-size: 14px;
+    color: rgba(255,255,255,0.75);
+    transition: color .2s;
+  }
+  .footer-col a:hover { color: white; }
+  .footer-bottom {
+    margin-top: 48px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(255,255,255,0.15);
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: rgba(255,255,255,0.5);
+  }
+
+  /* =========================
+     RESPONSIVE
+     ========================= */
+  @media (max-width: 1024px) {
+    .belief .container { grid-template-columns: 1fr; gap: 32px; }
+    .belief-side p { padding-top: 0; }
+    .cap-card { grid-template-columns: 1fr; padding: 36px; }
+    .cap-visual { margin: 0; }
+    .work-head { grid-template-columns: 1fr; }
+    .work-grid { grid-template-columns: 1fr; }
+    .brand-grid { grid-template-columns: repeat(2, 1fr); }
+    .footer-grid { grid-template-columns: 1fr; gap: 32px; }
+    .nav-links { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ========== NAV ========== -->
+<nav>
+  <div class="container nav-inner">
+    <div class="logo">
+      <span class="shield"></span>
+      ndu
+      <span class="tag">tech</span>
+    </div>
+    <div class="nav-links">
+      <a href="#beos">Cos'è Be OS</a>
+      <a href="#caps">Cosa fa</a>
+      <a href="#work">Risultati</a>
+      <a href="#" class="plain">Insights</a>
+      <a href="#" class="plain">Carriere</a>
+    </div>
+    <div class="nav-side">
+      <span class="lang-pill">
+        <span class="opt active">ITA</span>
+        <span class="opt">ENG</span>
+      </span>
+      <a href="#cta" class="btn-pill">Contattaci<span class="arrow">↗</span></a>
+    </div>
+  </div>
+</nav>
+
+<!-- ========== HERO ========== -->
+<header class="hero">
+  <span class="blob blob-acid b1"></span>
+  <span class="blob blob-azure b2"></span>
+  <span class="blob blob-teal b3"></span>
+
+  <div class="container">
+    <div class="hero-inner">
+      <h1>
+        Tecnologia<br/>
+        <span class="italic">che muove</span><br/>
+        il mercato.
+      </h1>
+      <div class="hero-cta">
+        <a href="#beos" class="btn-pill">
+          Scopri Be OS
+          <span class="arrow">↗</span>
+        </a>
+        <a href="#cta" class="btn-pill dark">
+          Prenota un audit
+          <span class="arrow">↗</span>
+        </a>
+      </div>
+
+      <!-- HERO VIDEO (circolare) -->
+      <div class="hero-collage">
+        <video
+          class="hero-video"
+          src="beos-hero.mp4"
+          autoplay
+          muted
+          loop
+          playsinline
+          preload="auto"></video>
+        <div class="collage-overlay"></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ========== WE BELIEVE ========== -->
+<section class="belief">
+  <span class="blob blob-acid left"></span>
+  <div class="container">
+    <div>
+      <div class="eyebrow">Crediamo che</div>
+      <h2>
+        In un mercato ridisegnato dall'AI,<br/>
+        le decisioni di marketing si fanno sui<br/>
+        <span class="italic">dati italiani</span>. Non altrove.
+      </h2>
+    </div>
+    <div class="belief-side">
+      <p>
+        Siamo l'innovation hub del Gruppo NDU, costruito per l'era agentica.
+        Mettiamo insieme la migliore tecnologia, le persone più curiose
+        e il più ricco patrimonio di dati italiani per offrire ai brand
+        crescita misurabile. In ogni canale, ogni giorno.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ========== CAPABILITY CARDS ========== -->
+<section id="caps" class="caps">
+  <div class="container">
+
+    <article class="cap-card">
+      <div class="cap-body">
+        <div class="cap-meta">
+          <span class="cap-num">01</span>
+          <span class="cap-eyebrow">Un OS, non un tool</span>
+        </div>
+        <h3>Un <span class="italic">sistema</span>, non l'ennesimo strumento.</h3>
+        <p>
+          Be OS è un <strong>sistema operativo agentico</strong>, non una SaaS in più.
+          17 prodotti tech proprietari e 5 agenti specializzati vivono dentro un unico
+          ambiente — il tuo. Tu li componi come servono alla tua sfida.
+          La tecnologia si adatta a te, non viceversa.
+        </p>
+        <a href="be-os.html" class="btn-pill">
+          Scopri l'architettura
+          <span class="arrow">↗</span>
+        </a>
+      </div>
+      <div class="cap-visual v1"></div>
+    </article>
+
+    <article class="cap-card">
+      <div class="cap-body">
+        <div class="cap-meta">
+          <span class="cap-num">02</span>
+          <span class="cap-eyebrow">Dati italiani, non panel</span>
+        </div>
+        <h3>Il <span class="italic">grafo comportamentale</span><br/>più ricco d'Italia.</h3>
+        <p>
+          <strong>100K creator top monitorati ogni giorno</strong>, 25M contenuti analizzati,
+          15M device geolocalizzati, 1 miliardo di touchpoint attivati. Non un panel di
+          2.000 persone aggiornato ogni 6 mesi — un grafo vivo, in tempo reale.
+          Asset proprietario. Nessun competitor lo replica.
+        </p>
+        <a href="#" class="btn-pill">
+          Esplora il Behavioral Graph
+          <span class="arrow">↗</span>
+        </a>
+      </div>
+      <div class="cap-visual v2"></div>
+    </article>
+
+    <article class="cap-card">
+      <div class="cap-body">
+        <div class="cap-meta">
+          <span class="cap-num">03</span>
+          <span class="cap-eyebrow">MCP-Native</span>
+        </div>
+        <h3>Si collega ai <span class="italic">tuoi</span> sistemi. Subito.</h3>
+        <p>
+          Be OS si collega ai tuoi sistemi <strong>via Model Context Protocol</strong>.
+          CRM, CDP, ERP, ad platforms, BI: connetti tutto in plug &amp; play.
+          I tuoi dati restano in casa tua. Be OS li legge dove vivono.
+          Niente migrazioni infernali, niente lock-in, governance condivisa.
+        </p>
+        <a href="#" class="btn-pill">
+          Come si integra
+          <span class="arrow">↗</span>
+        </a>
+      </div>
+      <div class="cap-visual v3"></div>
+    </article>
+
+    <article class="cap-card">
+      <div class="cap-body">
+        <div class="cap-meta">
+          <span class="cap-num">04</span>
+          <span class="cap-eyebrow">Marketing Autopilot</span>
+        </div>
+        <h3>Il marketing che <span class="italic">si pilota da solo</span>.</h3>
+        <p>
+          Il livello definitivo: Be OS osserva risultati, competitor e mercato 24/7,
+          decide cosa fare e <strong>sposta i budget da solo</strong>.
+          Quando una campagna performa meglio, riallinea. Quando un competitor attacca,
+          risponde. Quando il mercato cambia, si adatta. Tu definisci i guardrail.
+          Lui esegue. Sempre con il "perché" incluso.
+        </p>
+        <a href="be-os.html#command" class="btn-pill">
+          Vedi Be OS Command
+          <span class="arrow">↗</span>
+        </a>
+      </div>
+      <div class="cap-visual v4"></div>
+    </article>
+
+  </div>
+</section>
+
+<!-- ========== OUR WORK ========== -->
+<section id="work" class="work">
+  <span class="blob lblob"></span>
+  <div class="container">
+
+    <div class="work-head">
+      <div>
+        <div class="eyebrow">I nostri risultati</div>
+        <h2>Tecnologia <span class="italic">straordinaria</span>.<br/>Risultati misurabili.</h2>
+      </div>
+      <a href="#" class="btn-pill">
+        Vedi tutti i casi
+        <span class="arrow">↗</span>
+      </a>
+    </div>
+
+    <div class="work-grid">
+      <div class="work-card feature">
+        <div>
+          <div class="wc-label">NDU Tech Services</div>
+          <div class="wc-title">Marketing Autopilot per un top retailer italiano</div>
+        </div>
+        <div class="wc-meta">
+          <span class="wc-tag">Retail · Case Study</span>
+          <span class="wc-arrow">↗</span>
+        </div>
+      </div>
+      <div class="work-card">
+        <div>
+          <div class="wc-label">NDU Tech Services</div>
+          <div class="wc-title">+22% ROAS in 90 giorni grazie a Be OS Command</div>
+        </div>
+        <div class="wc-meta">
+          <span class="wc-tag">Beauty · Pilot</span>
+          <span class="wc-arrow" style="background: var(--azure); color: white;">↗</span>
+        </div>
+      </div>
+      <div class="work-card">
+        <div>
+          <div class="wc-label">NDU Tech Services</div>
+          <div class="wc-title">Predictive launch su un brand FMCG: −40% time-to-market</div>
+        </div>
+        <div class="wc-meta">
+          <span class="wc-tag">FMCG · Launch</span>
+          <span class="wc-arrow" style="background: var(--rose); color: white;">↗</span>
+        </div>
+      </div>
+      <div class="work-card">
+        <div>
+          <div class="wc-label">NDU Tech Services</div>
+          <div class="wc-title">Community 24/7 per un brand telco: −60% costo per interazione</div>
+        </div>
+        <div class="wc-meta">
+          <span class="wc-tag">Telco · Always-On</span>
+          <span class="wc-arrow" style="background: var(--purple); color: white;">↗</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== BRANDS ========== -->
+<section class="brands">
+  <div class="container">
+    <h3>Le famiglie tech che compongono Be OS</h3>
+    <div class="brand-grid">
+      <div class="brand-card">
+        <h4>Social &amp; Creator</h4>
+        <p>Capisci le conversazioni che contano. AIQ + PLUS.</p>
+      </div>
+      <div class="brand-card">
+        <h4>Physical &amp; Retail</h4>
+        <p>Misura, attiva e monetizza ogni metro quadrato.</p>
+      </div>
+      <div class="brand-card">
+        <h4>Advanced Data</h4>
+        <p>Modelli predittivi, panel sintetici, AEO.</p>
+      </div>
+      <div class="brand-card">
+        <h4>Agentic Solutions</h4>
+        <p>Una workforce di agenti, 24/7, dentro Be OS.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== CTA STRIP ========== -->
+<section id="cta" class="cta-strip">
+  <span class="blob"></span>
+  <h2>Pronto a far <span class="italic">muovere</span><br/>il tuo marketing?</h2>
+  <p>Quattro settimane di Be OS Audit. Numeri reali sul tuo business. Zero teorie.</p>
+  <a href="mailto:innovation@ndu.it" class="btn-pill">
+    Prenota un audit
+    <span class="arrow">↗</span>
+  </a>
+</section>
+
+<!-- ========== FOOTER ========== -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo">
+          <span class="shield"></span>
+          ndu
+          <span class="tag">tech</span>
+        </div>
+        <p>
+          Next Different · Uniting<br/>
+          La tecnologia italiana che capisce il tuo mercato e lo muove.
+        </p>
+      </div>
+      <div class="footer-col">
+        <h5>Be OS</h5>
+        <a href="#caps">Cos'è</a>
+        <a href="#caps">Architettura</a>
+        <a href="#">Behavioral Graph</a>
+        <a href="#">Marketing Autopilot</a>
+      </div>
+      <div class="footer-col">
+        <h5>Servizi</h5>
+        <a href="#">Be OS Audit</a>
+        <a href="#">Be OS Pilot</a>
+        <a href="#">Managed Services</a>
+        <a href="#">Be OS Command</a>
+      </div>
+      <div class="footer-col">
+        <h5>Azienda</h5>
+        <a href="#">Su di noi</a>
+        <a href="#">Carriere</a>
+        <a href="#">Insights</a>
+        <a href="#">Trust Center</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 NDU · Tutti i diritti riservati</span>
+      <span>Be OS · made in Italy</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

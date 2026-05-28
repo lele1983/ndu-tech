@@ -1,0 +1,1382 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Be OS · Il sistema operativo agentico per il marketing italiano · NDU</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --ink: #000000;
+    --ink-2: #0d0d0d;
+    --ink-3: #1a1a1a;
+    --bg: #000000;
+    --card: #111111;
+    --white: #ffffff;
+    --white-soft: rgba(255,255,255,0.78);
+    --ink-mute: rgba(255,255,255,0.55);
+    --line: rgba(255,255,255,0.12);
+    --line-lime: rgba(229,255,53,0.25);
+    --lime: #E5FF35;
+    --lime-dark: #b8cc24;
+    --lime-soft: rgba(229,255,53,0.15);
+    --fam-social: #f06ba0;
+    --fam-physical: #f59548;
+    --fam-data: #5096ff;
+    --fam-agentic: #b07bff;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--white);
+    font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  a { color: inherit; text-decoration: none; }
+  button { font: inherit; cursor: pointer; border: 0; background: none; color: inherit; }
+  .container { max-width: 1280px; margin: 0 auto; padding: 0 40px; }
+  .mono { font-family: 'DM Mono', monospace; }
+
+  /* ===== NAV ===== */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(0,0,0,0.82);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-inner {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 22px 0;
+  }
+  .logo {
+    display: flex; align-items: baseline; gap: 8px;
+    font-weight: 800; font-size: 22px; letter-spacing: -0.02em;
+    color: var(--white);
+  }
+  .logo .shield {
+    width: 22px; height: 26px;
+    background: var(--lime);
+    clip-path: polygon(50% 0%, 100% 0, 100% 65%, 50% 100%, 0 65%, 0 0);
+    display: inline-block;
+    margin-right: 2px;
+    position: relative; top: 4px;
+  }
+  .logo .tag {
+    font-size: 13px; font-weight: 500;
+    color: rgba(255,255,255,0.6);
+  }
+  .nav-links {
+    display: flex; gap: 32px;
+    font-size: 15px; font-weight: 500;
+  }
+  .nav-links a {
+    color: var(--white);
+    opacity: 0.85;
+    transition: opacity .2s, color .2s;
+  }
+  .nav-links a:hover { color: var(--lime); opacity: 1; }
+  .nav-links a.active { color: var(--lime); opacity: 1; }
+  .nav-side { display: flex; align-items: center; gap: 14px; }
+  .lang-pill {
+    display: inline-flex; align-items: center; gap: 0;
+    padding: 4px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+    background: rgba(255,255,255,0.04);
+  }
+  .lang-pill .opt { padding: 5px 12px; border-radius: 999px; color: rgba(255,255,255,0.5); cursor: pointer; }
+  .lang-pill .opt.active { background: var(--lime); color: var(--ink); }
+
+  .btn-pill {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 12px 22px;
+    background: var(--lime);
+    color: var(--ink);
+    border-radius: 999px;
+    font-size: 14px; font-weight: 700;
+    transition: all .25s;
+  }
+  .btn-pill:hover { background: var(--white); }
+  .btn-pill .arrow {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: var(--ink);
+    color: var(--lime);
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 12px;
+    margin-right: -8px;
+  }
+  .btn-pill.dark {
+    background: transparent;
+    color: var(--white);
+    border: 1px solid var(--white);
+  }
+  .btn-pill.dark:hover { background: var(--white); color: var(--ink); }
+  .btn-pill.dark .arrow { background: var(--white); color: var(--ink); }
+  .btn-pill.dark:hover .arrow { background: var(--ink); color: var(--white); }
+
+  /* ===== EYEBROW ===== */
+  .eyebrow {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--lime);
+    margin-bottom: 28px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .eyebrow::before {
+    content: '';
+    width: 28px; height: 1px;
+    background: var(--lime);
+  }
+
+  /* ===== HERO ===== */
+  .hero {
+    padding: 100px 0 80px;
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid var(--line);
+    min-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .hero-video-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+    opacity: 0.55;
+  }
+  .hero-video-overlay {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at top right, transparent 0%, rgba(0,0,0,0.5) 50%, var(--ink) 95%),
+      linear-gradient(180deg, rgba(0,0,0,0.4) 0%, transparent 30%, rgba(0,0,0,0.8) 100%);
+    z-index: 1;
+    pointer-events: none;
+  }
+  .hero-blob {
+    position: absolute;
+    width: 800px; height: 800px;
+    border-radius: 50%;
+    background: var(--lime);
+    filter: blur(120px);
+    opacity: 0.1;
+    top: -200px; right: -200px;
+    pointer-events: none;
+    z-index: 1;
+  }
+  .hero-blob.b2 {
+    width: 600px; height: 600px;
+    background: var(--lime);
+    opacity: 0.08;
+    top: auto;
+    bottom: -150px;
+    left: -100px;
+    right: auto;
+  }
+  .hero-inner { position: relative; z-index: 3; }
+
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 16px;
+    border: 1px solid var(--lime);
+    background: var(--lime-soft);
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--lime);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 36px;
+  }
+  .hero-tag::before {
+    content: '';
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--lime);
+    box-shadow: 0 0 10px var(--lime);
+  }
+
+  .hero h1 {
+    font-size: clamp(72px, 11vw, 200px);
+    font-weight: 800;
+    letter-spacing: -0.055em;
+    line-height: 0.9;
+    color: var(--white);
+    margin-bottom: 36px;
+  }
+  .hero h1 .lime {
+    color: var(--lime);
+    font-style: italic;
+    font-weight: 500;
+  }
+  .hero-sub {
+    font-size: clamp(20px, 2.2vw, 28px);
+    color: var(--white-soft);
+    max-width: 720px;
+    line-height: 1.4;
+    margin-bottom: 48px;
+    font-weight: 400;
+  }
+  .hero-cta {
+    display: flex; gap: 14px;
+    margin-bottom: 60px;
+  }
+
+  /* ===== STATS BAND ===== */
+  .stats {
+    padding: 40px 0;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 20px;
+  }
+  .stat .v {
+    font-size: 38px;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    color: var(--lime);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .stat .l {
+    font-size: 11px;
+    color: var(--ink-mute);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    font-weight: 600;
+    line-height: 1.35;
+  }
+
+  /* ===== SECTION SHELL ===== */
+  section { padding: 100px 0; position: relative; }
+  .section-head {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 60px;
+    align-items: end;
+    margin-bottom: 60px;
+  }
+  .section-head h2 {
+    font-size: clamp(40px, 5vw, 72px);
+    font-weight: 700;
+    letter-spacing: -0.035em;
+    line-height: 1.02;
+    color: var(--white);
+  }
+  .section-head h2 .lime {
+    color: var(--lime);
+    font-style: italic;
+    font-weight: 500;
+  }
+  .section-head .desc {
+    font-size: 17px;
+    color: var(--white-soft);
+    line-height: 1.6;
+    max-width: 520px;
+    margin-left: auto;
+  }
+
+  /* ===== ARCHITETTURA · 3 LAYER ===== */
+  .arch {
+    border-top: 1px solid var(--line);
+  }
+  .arch-stack {
+    display: flex;
+    flex-direction: column;
+  }
+  .arch-row {
+    display: grid;
+    grid-template-columns: 280px 1fr 60px;
+    gap: 60px;
+    align-items: center;
+    padding: 40px 0;
+    border-top: 1px solid var(--line);
+  }
+  .arch-row:last-child { border-bottom: 1px solid var(--line); }
+  .arch-num {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--lime);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+  .arch-name {
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    line-height: 1.1;
+    margin-top: 8px;
+    color: var(--white);
+  }
+  .arch-name .lime {
+    color: var(--lime);
+    font-style: italic;
+    font-weight: 500;
+  }
+  .arch-desc {
+    color: var(--white-soft);
+    margin-top: 12px;
+    font-size: 15px;
+    line-height: 1.55;
+  }
+  .arch-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip {
+    padding: 8px 16px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 500;
+    background: rgba(255,255,255,0.02);
+    transition: all .25s;
+  }
+  .chip:hover {
+    border-color: var(--lime);
+    background: var(--lime-soft);
+  }
+  .chip.highlight {
+    border-color: var(--lime);
+    color: var(--lime);
+  }
+  .arch-row .plus {
+    font-size: 32px;
+    font-weight: 300;
+    color: var(--lime);
+    text-align: center;
+    opacity: 0.6;
+  }
+
+  /* ===== FAMILIES · 4 PILLARS ===== */
+  .families {
+    border-top: 1px solid var(--line);
+  }
+  .families-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  .fam-card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 24px;
+    padding: 36px;
+    transition: all .25s;
+    position: relative;
+    overflow: hidden;
+  }
+  .fam-card:hover {
+    border-color: var(--line-lime);
+    transform: translateY(-4px);
+  }
+  .fam-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; height: 4px;
+    background: var(--fam-color, var(--lime));
+  }
+  .fam-card.social   { --fam-color: var(--fam-social);   }
+  .fam-card.physical { --fam-color: var(--fam-physical); }
+  .fam-card.data     { --fam-color: var(--fam-data);     }
+  .fam-card.agentic  { --fam-color: var(--fam-agentic);  }
+  .fam-tag {
+    display: inline-block;
+    padding: 5px 12px;
+    border-radius: 6px;
+    background: var(--fam-color);
+    color: var(--ink);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 18px;
+  }
+  .fam-card h3 {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    margin-bottom: 12px;
+  }
+  .fam-card h3 .lime { color: var(--lime); font-style: italic; font-weight: 500; }
+  .fam-card .payoff {
+    font-size: 15px;
+    color: var(--white-soft);
+    margin-bottom: 24px;
+    line-height: 1.55;
+  }
+  .fam-products {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .fam-product {
+    padding: 6px 14px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--white);
+  }
+
+  /* ===== COMMAND · MARKETING AUTOPILOT ===== */
+  .command {
+    background: var(--ink);
+    border-top: 1px solid var(--line);
+    position: relative;
+    overflow: hidden;
+  }
+  .command::before {
+    content: '';
+    position: absolute;
+    width: 900px; height: 600px;
+    background: radial-gradient(ellipse, rgba(229,255,53,0.12) 0%, transparent 65%);
+    top: 0; left: 50%;
+    transform: translateX(-50%);
+    filter: blur(40px);
+    pointer-events: none;
+  }
+  .command .container { position: relative; z-index: 2; }
+  .command-head { text-align: center; margin-bottom: 56px; }
+  .command-head .eyebrow { margin-left: auto; margin-right: auto; }
+  .command-head .eyebrow::before { display: none; }
+  .command-head .eyebrow {
+    border: 1px solid var(--lime);
+    padding: 6px 16px;
+    border-radius: 999px;
+    background: var(--lime-soft);
+  }
+  .command-head h2 {
+    font-size: clamp(48px, 6.5vw, 96px);
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    line-height: 1.0;
+    color: var(--white);
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  .command-head h2 .lime { color: var(--lime); font-style: italic; font-weight: 500; }
+  .command-head p {
+    font-size: 19px;
+    color: var(--white-soft);
+    max-width: 720px;
+    margin: 28px auto 0;
+    line-height: 1.55;
+  }
+
+  /* Dashboard mockup */
+  .deck {
+    margin-top: 60px;
+    background: var(--card);
+    border: 1px solid var(--line-lime);
+    border-radius: 24px;
+    padding: 20px;
+    box-shadow: 0 30px 100px rgba(229,255,53,0.08);
+  }
+  .deck-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px 14px 18px;
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 20px;
+  }
+  .deck-bar-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: -0.01em;
+  }
+  .deck-bar-left .live {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    color: var(--lime);
+    background: var(--lime-soft);
+    padding: 4px 10px;
+    border-radius: 4px;
+    margin-left: 4px;
+  }
+  .deck-bar-left .live::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--lime);
+    border-radius: 50%;
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50%      { opacity: 0.5; transform: scale(1.3); }
+  }
+  .deck-bar-right { font-size: 12px; color: var(--ink-mute); }
+
+  .deck-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.6fr;
+    gap: 16px;
+  }
+  .deck-stats { display: grid; grid-template-columns: 1fr; gap: 12px; }
+  .deck-stat {
+    padding: 18px 20px;
+    background: var(--ink);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+  }
+  .deck-stat .lbl {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--ink-mute);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .deck-stat .val {
+    font-size: 30px;
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+  .deck-stat .val em {
+    font-style: normal;
+    font-weight: 500;
+    color: var(--lime);
+    font-size: 18px;
+    margin-left: 4px;
+  }
+  .deck-stat .delta {
+    font-size: 12px;
+    color: var(--lime);
+    margin-top: 6px;
+    font-weight: 600;
+  }
+  .deck-stat .delta.neg { color: #ff6a6a; }
+
+  .deck-chart {
+    background: var(--ink);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 20px;
+    min-height: 280px;
+  }
+  .deck-chart .chart-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+  }
+  .chart-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--white);
+  }
+  .chart-legend {
+    display: flex;
+    gap: 14px;
+    font-size: 11px;
+    color: var(--ink-mute);
+    font-weight: 600;
+  }
+  .chart-legend span {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .chart-legend span::before {
+    content: '';
+    width: 8px; height: 8px;
+    border-radius: 2px;
+    background: var(--col, var(--lime));
+  }
+  .chart-svg { width: 100%; height: 200px; display: block; }
+
+  .deck-actions {
+    margin-top: 16px;
+    background: var(--ink);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 18px 20px;
+  }
+  .deck-actions-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+  }
+  .deck-actions-head .title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--white);
+  }
+  .deck-actions-head .count {
+    font-size: 10px;
+    color: var(--lime);
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .deck-action {
+    display: grid;
+    grid-template-columns: 80px 1fr auto;
+    gap: 16px;
+    padding: 10px 0;
+    border-top: 1px solid var(--line);
+    font-size: 13px;
+    align-items: center;
+  }
+  .deck-action:first-of-type { border-top: 0; padding-top: 4px; }
+  .deck-action .time {
+    font-family: 'DM Mono', monospace;
+    color: var(--ink-mute);
+    font-size: 11px;
+  }
+  .deck-action .what { color: var(--white-soft); }
+  .deck-action .what strong { color: var(--lime); font-weight: 700; }
+  .deck-action .badge {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 4px;
+    background: var(--lime-soft);
+    color: var(--lime);
+  }
+  .deck-action .badge.warn {
+    background: rgba(255, 170, 50, 0.12);
+    color: #ffa632;
+  }
+
+  /* Command capabilities */
+  .command-caps {
+    margin-top: 80px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  .cap-card {
+    padding: 32px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    transition: all .25s;
+  }
+  .cap-card:hover { border-color: var(--line-lime); }
+  .cap-card .num {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--lime);
+    letter-spacing: 0.14em;
+    margin-bottom: 16px;
+    display: block;
+  }
+  .cap-card h4 {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    color: var(--white);
+    margin-bottom: 10px;
+  }
+  .cap-card h4 .lime { color: var(--lime); font-style: italic; font-weight: 500; }
+  .cap-card p {
+    font-size: 14.5px;
+    color: var(--white-soft);
+    line-height: 1.55;
+  }
+
+  /* ===== TRUST ===== */
+  .trust { border-top: 1px solid var(--line); }
+  .trust-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .trust-card {
+    padding: 36px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 20px;
+  }
+  .trust-icon {
+    font-size: 28px;
+    color: var(--lime);
+    margin-bottom: 20px;
+    font-weight: 700;
+  }
+  .trust-card h3 {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 12px;
+    color: var(--white);
+  }
+  .trust-card p {
+    font-size: 14px;
+    color: var(--white-soft);
+    line-height: 1.6;
+  }
+
+  /* ===== GTM — 3 PORTE ===== */
+  .gtm { border-top: 1px solid var(--line); }
+  .gtm-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    border: 1px solid var(--line);
+    border-radius: 24px;
+    overflow: hidden;
+  }
+  .door {
+    padding: 40px 32px;
+    background: var(--card);
+    border-right: 1px solid var(--line);
+    transition: background .25s;
+    display: flex;
+    flex-direction: column;
+  }
+  .door:last-child { border-right: 0; }
+  .door:hover { background: var(--ink-3); }
+  .door-num {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--lime);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+  .door h3 {
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    line-height: 1.05;
+    color: var(--white);
+    margin-bottom: 8px;
+  }
+  .door h3 .lime { color: var(--lime); font-style: italic; font-weight: 500; }
+  .door .door-tag {
+    font-size: 13px;
+    color: var(--ink-mute);
+    margin-bottom: 32px;
+  }
+  .door ul {
+    list-style: none;
+    margin-top: auto;
+  }
+  .door li {
+    padding: 12px 0;
+    border-top: 1px solid var(--line);
+    font-size: 14px;
+    color: var(--white-soft);
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  .door li::before {
+    content: '';
+    flex: 0 0 6px;
+    width: 6px; height: 6px;
+    background: var(--lime);
+    border-radius: 50%;
+    margin-top: 7px;
+  }
+
+  /* ===== CTA STRIP ===== */
+  .cta-strip {
+    background: var(--lime);
+    color: var(--ink);
+    padding: 120px 0;
+    text-align: center;
+    position: relative;
+  }
+  .cta-strip h2 {
+    font-size: clamp(48px, 6.5vw, 96px);
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    line-height: 1.0;
+    max-width: 1000px;
+    margin: 0 auto 24px;
+  }
+  .cta-strip h2 .italic { font-style: italic; font-weight: 500; }
+  .cta-strip p {
+    font-size: 18px;
+    color: rgba(0,0,0,0.65);
+    max-width: 600px;
+    margin: 0 auto 40px;
+  }
+  .cta-strip .btn-pill {
+    background: var(--ink);
+    color: var(--white);
+  }
+  .cta-strip .btn-pill:hover { background: var(--white); color: var(--ink); }
+  .cta-strip .btn-pill .arrow { background: var(--lime); color: var(--ink); }
+  .cta-strip .btn-pill:hover .arrow { background: var(--ink); color: var(--lime); }
+
+  /* ===== FOOTER ===== */
+  footer {
+    background: var(--ink);
+    color: rgba(255,255,255,0.7);
+    padding: 80px 0 32px;
+    border-top: 1px solid var(--line);
+  }
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 60px;
+  }
+  .footer-brand p {
+    margin-top: 18px;
+    font-size: 14px;
+    line-height: 1.6;
+    max-width: 320px;
+  }
+  .footer-col h5 {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--lime);
+    margin-bottom: 18px;
+  }
+  .footer-col a {
+    display: block;
+    padding: 5px 0;
+    font-size: 14px;
+    color: rgba(255,255,255,0.75);
+    transition: color .2s;
+  }
+  .footer-col a:hover { color: var(--lime); }
+  .footer-bottom {
+    margin-top: 48px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(255,255,255,0.15);
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: rgba(255,255,255,0.5);
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 1024px) {
+    .stats-grid { grid-template-columns: repeat(3, 1fr); row-gap: 28px; }
+    .section-head { grid-template-columns: 1fr; gap: 24px; }
+    .arch-row { grid-template-columns: 1fr; gap: 24px; }
+    .arch-row .plus { display: none; }
+    .families-grid { grid-template-columns: 1fr; }
+    .deck-grid { grid-template-columns: 1fr; }
+    .command-caps { grid-template-columns: 1fr; }
+    .trust-grid { grid-template-columns: 1fr; }
+    .gtm-grid { grid-template-columns: 1fr; }
+    .door { border-right: 0; border-bottom: 1px solid var(--line); }
+    .door:last-child { border-bottom: 0; }
+    .footer-grid { grid-template-columns: 1fr; gap: 32px; }
+    .nav-links { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============= NAV ============= -->
+<nav>
+  <div class="container nav-inner">
+    <div class="logo">
+      <span class="shield"></span>
+      ndu
+      <span class="tag">tech</span>
+    </div>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="#beos" class="active">Be OS</a>
+      <a href="#architettura">Architettura</a>
+      <a href="#famiglie">Famiglie</a>
+      <a href="#command">Command</a>
+      <a href="#trust">Trust</a>
+    </div>
+    <div class="nav-side">
+      <span class="lang-pill">
+        <span class="opt active">ITA</span>
+        <span class="opt">ENG</span>
+      </span>
+      <a href="#cta" class="btn-pill">Contattaci<span class="arrow">↗</span></a>
+    </div>
+  </div>
+</nav>
+
+<!-- ============= HERO ============= -->
+<header class="hero" id="beos">
+  <video class="hero-video-bg"
+         src="beos-hero.mp4"
+         autoplay muted loop playsinline preload="auto"></video>
+  <div class="hero-video-overlay"></div>
+  <div class="hero-blob"></div>
+  <div class="hero-blob b2"></div>
+  <div class="container hero-inner">
+    <div class="hero-tag">Sistema operativo agentico · made in Italy</div>
+    <h1>
+      Be <span class="lime">OS</span>.
+    </h1>
+    <p class="hero-sub">
+      Il sistema operativo agentico che mette il marketing italiano in pista.
+      Dati proprietari, agenti specializzati, tutto il tuo stack collegato via MCP.
+      Un'unica piattaforma che capisce, decide, agisce.
+    </p>
+    <div class="hero-cta">
+      <a href="#architettura" class="btn-pill">Vedi come funziona<span class="arrow">↗</span></a>
+      <a href="#cta" class="btn-pill dark">Prenota un audit<span class="arrow">↗</span></a>
+    </div>
+  </div>
+
+  <!-- Stats band -->
+  <div class="container">
+    <div class="stats">
+      <div class="stats-grid">
+        <div class="stat"><div class="v">17</div><div class="l">prodotti proprietari</div></div>
+        <div class="stat"><div class="v">5</div><div class="l">agenti specializzati</div></div>
+        <div class="stat"><div class="v">100K</div><div class="l">creator monitorati</div></div>
+        <div class="stat"><div class="v">15M</div><div class="l">device geolocalizzati</div></div>
+        <div class="stat"><div class="v">1 Mld</div><div class="l">touchpoint attivati</div></div>
+        <div class="stat"><div class="v">24/7</div><div class="l">sistema sempre live</div></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ============= ARCHITETTURA ============= -->
+<section id="architettura" class="arch">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow">01 · Come funziona</div>
+        <h2>Tre piani.<br/><span class="lime">Una</span> piattaforma.</h2>
+      </div>
+      <div class="desc">
+        Be OS è un ecosistema vivo. Sotto, il patrimonio dati che lo alimenta.
+        Al centro, l'intelligenza che orchestra tutto. Sopra, le soluzioni che
+        muovono il tuo business ogni giorno.
+      </div>
+    </div>
+
+    <div class="arch-stack">
+
+      <div class="arch-row">
+        <div>
+          <div class="arch-num">03 · Solutions Layer</div>
+          <div class="arch-name">Le <span class="lime">azioni</span> che vendono</div>
+          <div class="arch-desc">Quattro famiglie tech componibili più 5 agenti AI sempre in servizio.</div>
+        </div>
+        <div class="arch-chips">
+          <span class="chip">Social &amp; Creator</span>
+          <span class="chip">Physical &amp; Retail</span>
+          <span class="chip">Advanced Data</span>
+          <span class="chip">Agentic Solutions</span>
+        </div>
+        <div class="plus">↑</div>
+      </div>
+
+      <div class="arch-row">
+        <div>
+          <div class="arch-num">02 · Operating Layer</div>
+          <div class="arch-name">Il <span class="lime">motore</span> Be OS</div>
+          <div class="arch-desc">Infrastruttura agentica che orchestra modelli, dati e tool. Ambienti dedicati, governance per perimetro.</div>
+        </div>
+        <div class="arch-chips">
+          <span class="chip highlight">Core AI</span>
+          <span class="chip highlight">MCP Gateway</span>
+          <span class="chip">Datalake federato</span>
+          <span class="chip">Agent Runtime</span>
+          <span class="chip">Ontology Layer</span>
+          <span class="chip">Behavioral Graph</span>
+        </div>
+        <div class="plus">↑</div>
+      </div>
+
+      <div class="arch-row">
+        <div>
+          <div class="arch-num">01 · Data Layer</div>
+          <div class="arch-name">Il <span class="lime">combustibile</span></div>
+          <div class="arch-desc">Dati proprietari NDU, partner strategici e i tuoi dati collegati via MCP. Tutto in tempo reale.</div>
+        </div>
+        <div class="arch-chips">
+          <span class="chip">AIQ · 100K creator</span>
+          <span class="chip">SDK Mobile · 15M device</span>
+          <span class="chip">EMG Synthetic</span>
+          <span class="chip">Nielsen · GWI · Eumetra</span>
+          <span class="chip">Meta · TikTok · Google</span>
+          <span class="chip highlight">+ i tuoi dati (MCP)</span>
+        </div>
+        <div class="plus"></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============= FAMIGLIE ============= -->
+<section id="famiglie" class="families">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow">02 · I prodotti</div>
+        <h2>Quattro famiglie.<br/><span class="lime">17</span> superpoteri.</h2>
+      </div>
+      <div class="desc">
+        Ogni prodotto è già pronto, già testato, già attivo per i nostri clienti.
+        Li combini come vuoi per costruire la soluzione esatta per la tua sfida.
+      </div>
+    </div>
+
+    <div class="families-grid">
+      <article class="fam-card social">
+        <span class="fam-tag">A · Social &amp; Creator</span>
+        <h3>Le conversazioni che <span class="lime">vendono</span></h3>
+        <p class="payoff">Social intelligence proprietaria e influencer marketing end-to-end su 100K creator top italiani e 130M creator globali.</p>
+        <div class="fam-products">
+          <span class="fam-product">AIQ</span>
+          <span class="fam-product">PLUS</span>
+        </div>
+      </article>
+
+      <article class="fam-card physical">
+        <span class="fam-tag">B · Physical &amp; Retail</span>
+        <h3>Ogni metro <span class="lime">quadrato</span></h3>
+        <p class="payoff">Misuriamo, attiviamo e monetizziamo lo spazio fisico. Eventi, retail, signage e proximity in un'unica filiera dati.</p>
+        <div class="fam-products">
+          <span class="fam-product">Live Track</span>
+          <span class="fam-product">Retail Track</span>
+          <span class="fam-product">Grid</span>
+          <span class="fam-product">Conv. Signage</span>
+        </div>
+      </article>
+
+      <article class="fam-card data">
+        <span class="fam-tag">C · Advanced Data</span>
+        <h3>Smetti di <span class="lime">indovinare</span></h3>
+        <p class="payoff">I dati e i modelli che ti dicono cosa funzionerà — e quanto fatturerà — prima ancora di spendere il primo euro.</p>
+        <div class="fam-products">
+          <span class="fam-product">DMP</span>
+          <span class="fam-product">Geo Traffic</span>
+          <span class="fam-product">Twin Lab</span>
+          <span class="fam-product">GEO/AEO</span>
+          <span class="fam-product">Insight Studio</span>
+          <span class="fam-product">Proximity</span>
+          <span class="fam-product">Meta SPP &amp; DSP</span>
+          <span class="fam-product">Behavioral Graph</span>
+        </div>
+      </article>
+
+      <article class="fam-card agentic">
+        <span class="fam-tag">D · Agentic</span>
+        <h3>Non vanno mai <span class="lime">in ferie</span></h3>
+        <p class="payoff">Cinque agenti AI sempre in servizio. Pensano, lavorano e producono come i tuoi migliori talenti. Senza pause.</p>
+        <div class="fam-products">
+          <span class="fam-product">Creative-loop</span>
+          <span class="fam-product">Community-loop</span>
+          <span class="fam-product">Insight-loop</span>
+          <span class="fam-product">Media-loop</span>
+          <span class="fam-product">Custom-loop</span>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============= COMMAND (PINNACLE) ============= -->
+<section id="command" class="command">
+  <div class="container">
+    <div class="command-head">
+      <div class="eyebrow">★ Il livello definitivo</div>
+      <h2 style="margin-top: 24px;">
+        <span class="lime">Marketing Autopilot.</span><br/>
+        Tutto Be OS, in un solo posto.
+      </h2>
+      <p>
+        La suite completa che unisce i tuoi sistemi, i nostri dati e l'intero mercato.
+        Osserva. Decide. Sposta budget. Reagisce a competitor e trend in tempo reale.
+        Tu, al comando. Lui, sempre in pista.
+      </p>
+    </div>
+
+    <!-- DASHBOARD MOCKUP -->
+    <div class="deck">
+      <div class="deck-bar">
+        <div class="deck-bar-left">
+          Be OS Command
+          <span class="live">LIVE</span>
+        </div>
+        <div class="deck-bar-right mono">Ultimo aggiornamento · 47s fa</div>
+      </div>
+
+      <div class="deck-grid">
+        <div class="deck-stats">
+          <div class="deck-stat">
+            <div class="lbl">ROAS portfolio</div>
+            <div class="val">4,8<em>×</em></div>
+            <div class="delta">↑ +12% vs ultima settimana</div>
+          </div>
+          <div class="deck-stat">
+            <div class="lbl">Pipeline generata</div>
+            <div class="val">€ 2,4M</div>
+            <div class="delta">↑ +€340K nelle 24h</div>
+          </div>
+          <div class="deck-stat">
+            <div class="lbl">Share of voice</div>
+            <div class="val">38<em>%</em></div>
+            <div class="delta">↑ +6pt vs competitor leader</div>
+          </div>
+          <div class="deck-stat">
+            <div class="lbl">Sentiment brand</div>
+            <div class="val">+72</div>
+            <div class="delta neg">↓ −3 (allerta su forum X)</div>
+          </div>
+        </div>
+
+        <div>
+          <div class="deck-chart">
+            <div class="chart-head">
+              <div class="chart-title">Performance vs Competitor · 30 giorni</div>
+              <div class="chart-legend">
+                <span style="--col: var(--lime);">Tu</span>
+                <span style="--col: #5096ff;">Competitor A</span>
+                <span style="--col: #f06ba0;">Competitor B</span>
+              </div>
+            </div>
+            <svg class="chart-svg" viewBox="0 0 600 200" preserveAspectRatio="none">
+              <line x1="0" y1="50"  x2="600" y2="50"  stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+              <line x1="0" y1="100" x2="600" y2="100" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+              <line x1="0" y1="150" x2="600" y2="150" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+              <path d="M0,150 L60,148 L120,152 L180,155 L240,150 L300,152 L360,155 L420,158 L480,160 L540,162 L600,165"
+                    fill="none" stroke="#f06ba0" stroke-width="1.5" stroke-opacity="0.6"/>
+              <path d="M0,120 L60,118 L120,115 L180,118 L240,116 L300,118 L360,120 L420,122 L480,123 L540,125 L600,128"
+                    fill="none" stroke="#5096ff" stroke-width="1.5" stroke-opacity="0.6"/>
+              <path d="M0,110 L60,105 L120,98 L180,90 L240,80 L300,72 L360,65 L420,55 L480,48 L540,40 L600,32"
+                    fill="none" stroke="#E5FF35" stroke-width="2.5"/>
+              <defs>
+                <linearGradient id="limeGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#E5FF35" stop-opacity="0.3"/>
+                  <stop offset="100%" stop-color="#E5FF35" stop-opacity="0"/>
+                </linearGradient>
+              </defs>
+              <path d="M0,110 L60,105 L120,98 L180,90 L240,80 L300,72 L360,65 L420,55 L480,48 L540,40 L600,32 L600,200 L0,200 Z"
+                    fill="url(#limeGrad)"/>
+              <circle cx="600" cy="32" r="5" fill="#E5FF35"/>
+              <circle cx="600" cy="32" r="12" fill="#E5FF35" fill-opacity="0.2"/>
+            </svg>
+          </div>
+
+          <div class="deck-actions">
+            <div class="deck-actions-head">
+              <div class="title">Auto-actions del sistema</div>
+              <div class="count">3 attive · 17 oggi</div>
+            </div>
+            <div class="deck-action">
+              <span class="time">14:32</span>
+              <span class="what">Spostati <strong>€18K</strong> da Meta a TikTok su "donne 25-34, Nord" — ROAS atteso ↑22%</span>
+              <span class="badge">attivo</span>
+            </div>
+            <div class="deck-action">
+              <span class="time">13:08</span>
+              <span class="what">Competitor A ha lanciato campagna su <strong>"sostenibilità"</strong> — risposta creativa pronta a deploy</span>
+              <span class="badge warn">in review</span>
+            </div>
+            <div class="deck-action">
+              <span class="time">11:45</span>
+              <span class="what">Picco sentiment negativo su <strong>r/marketing</strong> — community-loop ha risposto on-brand</span>
+              <span class="badge">attivo</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4 CAPABILITIES -->
+    <div class="command-caps">
+      <article class="cap-card">
+        <span class="num">01 · UNIFY</span>
+        <h4>Tutto in un <span class="lime">solo</span> grafo.</h4>
+        <p>I tuoi dati di vendita, CRM, magazzino. I nostri dati di mercato e social. I segnali dei competitor. Tutto si parla nel Behavioral Graph. Niente più silos.</p>
+      </article>
+      <article class="cap-card">
+        <span class="num">02 · CONNECT</span>
+        <h4>Si collega <span class="lime">via MCP</span> ai tuoi sistemi.</h4>
+        <p>CRM, CDP, ERP, ad platforms, BI: connetti tutto in plug &amp; play tramite MCP Gateway. I tuoi dati restano in casa tua. Be OS li legge dove vivono.</p>
+      </article>
+      <article class="cap-card">
+        <span class="num">03 · DECIDE</span>
+        <h4>Ti dice <span class="lime">cosa</span> fare. E perché.</h4>
+        <p>Il sistema osserva risultati reali, andamento campagne, mosse della concorrenza. Genera decisioni in linguaggio CMO — con il "perché" sempre incluso.</p>
+      </article>
+      <article class="cap-card">
+        <span class="num">04 · ACT</span>
+        <h4>Sposta i budget <span class="lime">da solo</span>.</h4>
+        <p>Quando una campagna performa meglio, Be OS riallinea. Quando un competitor attacca, risponde. Quando il mercato cambia, si adatta. Tu, i guardrail.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============= COME SI COMPRA ============= -->
+<section id="gtm" class="gtm">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow">03 · Come si inizia</div>
+        <h2>Tre <span class="lime">porte</span>.<br/>Nessun salto nel buio.</h2>
+      </div>
+      <div class="desc">
+        Inizi dal punto giusto per te. Un audit per orientarti, un pilot per testare con i tuoi numeri, un servizio gestito per scalare.
+      </div>
+    </div>
+
+    <div class="gtm-grid">
+      <div class="door">
+        <div class="door-num">Porta 01 · L'inizio</div>
+        <h3>Be OS <span class="lime">Audit</span></h3>
+        <div class="door-tag">4-6 settimane · fee fissa</div>
+        <ul>
+          <li>Mappiamo il tuo marketing stack</li>
+          <li>Roadmap AI a 12-18 mesi</li>
+          <li>Pilota già scoperto e quotato</li>
+          <li>Output utilizzabile in CdA</li>
+          <li>Niente sorprese in fattura</li>
+        </ul>
+      </div>
+      <div class="door">
+        <div class="door-num">Porta 02 · La prova</div>
+        <h3>Be OS <span class="lime">Pilot</span></h3>
+        <div class="door-tag">8-12 settimane · fee a progetto</div>
+        <ul>
+          <li>Be OS live sul tuo business reale</li>
+          <li>KPI dichiarati prima di partire</li>
+          <li>Risultati in 8-12 settimane</li>
+          <li>Pagamento legato ai risultati</li>
+          <li>Business case pronto per il CFO</li>
+        </ul>
+      </div>
+      <div class="door">
+        <div class="door-num">Porta 03 · La scalata</div>
+        <h3>Managed <span class="lime">Services</span></h3>
+        <div class="door-tag">Contratto annuale o triennale · ricorrente</div>
+        <ul>
+          <li>Be OS che lavora per te 24/7</li>
+          <li>Team Innovation dedicato</li>
+          <li>Dashboard live di adoption e ROI</li>
+          <li>Governance condivisa, controllo tuo</li>
+          <li>Costi prevedibili, valore crescente</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============= TRUST ============= -->
+<section id="trust" class="trust">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow">04 · La tua sicurezza</div>
+        <h2>I tuoi dati.<br/>Le tue <span class="lime">regole</span>. Sempre.</h2>
+      </div>
+      <div class="desc">
+        Per i clienti enterprise la fiducia non è un dettaglio: è il primo gate. Per questo è il primo capitolo della nostra offerta, non l'ultimo.
+      </div>
+    </div>
+
+    <div class="trust-grid">
+      <div class="trust-card">
+        <div class="trust-icon">§</div>
+        <h3>AI con etica al centro</h3>
+        <p>Comitato etico interno, controllo umano sui processi critici, audit trail su ogni decisione AI. La trasparenza non è un'opzione.</p>
+      </div>
+      <div class="trust-card">
+        <div class="trust-icon">↯</div>
+        <h3>Sovranità totale dei dati</h3>
+        <p>Nessuna condivisione, nessun training su dati cliente. Ambienti dedicati, contratti chiari. I tuoi dati restano tuoi. Punto.</p>
+      </div>
+      <div class="trust-card">
+        <div class="trust-icon">✓</div>
+        <h3>Certificazioni che parlano</h3>
+        <p>Già B Corp e UNI PdR 125. ISO 27001 e SOC 2 entro 2027. Documentazione pronta per il tuo legal, dal primo giorno.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============= CTA FINALE ============= -->
+<section id="cta" class="cta-strip">
+  <h2>Pronto a far <span class="italic">muovere</span><br/>il tuo marketing?</h2>
+  <p>Quattro settimane di Be OS Audit. Numeri reali sul tuo business. Zero teorie.</p>
+  <a href="mailto:innovation@ndu.it" class="btn-pill">Prenota un audit<span class="arrow">↗</span></a>
+</section>
+
+<!-- ============= FOOTER ============= -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo">
+          <span class="shield"></span>
+          ndu
+          <span class="tag">tech</span>
+        </div>
+        <p>
+          Next Different · Uniting<br/>
+          La Tecnologia italiana che capisce il tuo mercato e lo muove.
+        </p>
+      </div>
+      <div class="footer-col">
+        <h5>Be OS</h5>
+        <a href="#architettura">Cos'è</a>
+        <a href="#architettura">Architettura</a>
+        <a href="#famiglie">I prodotti</a>
+        <a href="#command">Marketing Autopilot</a>
+      </div>
+      <div class="footer-col">
+        <h5>Servizi</h5>
+        <a href="#gtm">Be OS Audit</a>
+        <a href="#gtm">Be OS Pilot</a>
+        <a href="#gtm">Managed Services</a>
+        <a href="#trust">Trust Center</a>
+      </div>
+      <div class="footer-col">
+        <h5>Azienda</h5>
+        <a href="index.html">NDU Tech</a>
+        <a href="#">About</a>
+        <a href="#">Insights</a>
+        <a href="#">Carriere</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 NDU · Tutti i diritti riservati</span>
+      <span>Be OS · made in Italy</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
