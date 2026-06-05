@@ -748,6 +748,482 @@
   .footer-links a { color: var(--white-soft); transition: color .2s; }
   .footer-links a:hover { color: var(--lime); }
 
+  /* ===== DEMO FLOW (CLAUDE DESKTOP MOCKUP) ===== */
+  .demo {
+    border-top: 1px solid var(--line);
+    background: linear-gradient(180deg, var(--ink) 0%, var(--ink-2) 100%);
+  }
+  .demo-stage {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 32px;
+    align-items: start;
+  }
+  .demo-steps {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    position: sticky;
+    top: 100px;
+  }
+  .demo-step-btn {
+    text-align: left;
+    background: transparent;
+    padding: 18px 20px;
+    border-radius: 14px;
+    border: 1px solid var(--line);
+    color: var(--white-soft);
+    cursor: pointer;
+    transition: all .25s;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    width: 100%;
+  }
+  .demo-step-btn:hover {
+    border-color: var(--line-lime);
+    background: rgba(229,255,53,0.04);
+  }
+  .demo-step-btn.active {
+    border-color: var(--lime);
+    background: var(--lime-soft);
+    color: var(--white);
+  }
+  .demo-step-btn .ds-n {
+    flex: 0 0 32px;
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: var(--ink-3);
+    color: var(--white-soft);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700;
+    font-size: 13px;
+    font-family: 'DM Mono', monospace;
+    transition: all .25s;
+  }
+  .demo-step-btn.active .ds-n {
+    background: var(--lime);
+    color: var(--ink);
+    box-shadow: 0 0 16px rgba(229,255,53,0.5);
+  }
+  .demo-step-btn .ds-t {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 4px;
+    letter-spacing: -0.01em;
+  }
+  .demo-step-btn .ds-d {
+    font-size: 12.5px;
+    color: var(--white-soft);
+    line-height: 1.4;
+  }
+  .demo-step-btn .ds-t .lime { color: var(--lime); font-style: italic; font-weight: 500; }
+
+  .demo-progress {
+    margin-top: 16px;
+    padding: 12px 16px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 11px;
+    color: var(--ink-mute);
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.08em;
+  }
+  .demo-progress .play-btn {
+    width: 28px; height: 28px;
+    background: var(--lime);
+    color: var(--ink);
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    cursor: pointer;
+  }
+  .demo-progress .play-btn:hover { background: var(--white); }
+
+  /* Window mockup */
+  .demo-window {
+    background: #1a1a1a;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 30px 100px rgba(0,0,0,0.6);
+  }
+  .dw-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 16px;
+    background: #0a0a0a;
+    border-bottom: 1px solid var(--line);
+  }
+  .dw-bar .dots {
+    display: flex;
+    gap: 6px;
+  }
+  .dw-bar .dots span {
+    width: 11px; height: 11px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.15);
+  }
+  .dw-bar .dots span:nth-child(1) { background: #ff5f57; }
+  .dw-bar .dots span:nth-child(2) { background: #febc2e; }
+  .dw-bar .dots span:nth-child(3) { background: #28c840; }
+  .dw-bar .title {
+    flex: 1;
+    text-align: center;
+    font-size: 11px;
+    color: var(--ink-mute);
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.06em;
+  }
+  .dw-body {
+    min-height: 480px;
+    padding: 32px;
+    position: relative;
+  }
+  .ds-frame {
+    display: none;
+    animation: fadeIn .4s ease;
+  }
+  .ds-frame.active { display: block; }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: none; }
+  }
+
+  /* FRAME 1 — Connector list */
+  .conn-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    max-width: 640px;
+  }
+  .conn-item {
+    background: var(--ink);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 13px;
+    color: var(--white-soft);
+  }
+  .conn-item .ic {
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    background: rgba(255,255,255,0.08);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800;
+    color: var(--white);
+    font-size: 12px;
+  }
+  .conn-item.highlight {
+    border-color: var(--lime);
+    background: var(--lime-soft);
+    color: var(--white);
+    box-shadow: 0 0 24px rgba(229,255,53,0.2);
+  }
+  .conn-item.highlight .ic {
+    background: var(--lime);
+    color: var(--ink);
+  }
+  .conn-cursor {
+    width: 14px; height: 14px;
+    background: var(--lime);
+    border-radius: 50%;
+    box-shadow: 0 0 12px rgba(229,255,53,0.6);
+    margin-left: auto;
+    animation: pulse 1.5s infinite;
+  }
+  @keyframes pulse {
+    0%,100% { opacity: 1; transform: scale(1); }
+    50% { opacity: .4; transform: scale(1.3); }
+  }
+  .demo-h {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-mute);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-bottom: 18px;
+  }
+  .demo-h-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 24px;
+    letter-spacing: -0.015em;
+  }
+
+  /* FRAME 2 — OAuth login */
+  .oauth-box {
+    max-width: 420px;
+    margin: 30px auto 0;
+    background: var(--ink);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 36px 32px;
+    text-align: center;
+  }
+  .oauth-logos {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .oauth-logos .o-shield {
+    width: 32px; height: 38px;
+    background: var(--lime);
+    clip-path: polygon(50% 0%, 100% 0, 100% 65%, 50% 100%, 0 65%, 0 0);
+  }
+  .oauth-logos .o-pipe {
+    color: var(--ink-mute);
+    font-size: 18px;
+  }
+  .oauth-logos .o-name {
+    font-family: 'DM Mono', monospace;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: var(--white);
+  }
+  .oauth-title {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .oauth-sub {
+    font-size: 12px;
+    color: var(--ink-mute);
+    margin-bottom: 24px;
+  }
+  .oauth-field {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 12px 14px;
+    margin-bottom: 8px;
+    text-align: left;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--white-soft);
+  }
+  .oauth-field .lbl {
+    font-size: 9px;
+    color: var(--ink-mute);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .oauth-btn {
+    width: 100%;
+    padding: 12px;
+    background: var(--lime);
+    color: var(--ink);
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 700;
+    margin-top: 12px;
+  }
+  .oauth-meta {
+    margin-top: 16px;
+    font-size: 10px;
+    color: var(--ink-mute);
+    letter-spacing: 0.08em;
+  }
+
+  /* FRAME 3 — Chat */
+  .chat-msg {
+    margin-bottom: 20px;
+    max-width: 90%;
+  }
+  .chat-msg.user {
+    margin-left: auto;
+    text-align: right;
+  }
+  .chat-msg .role {
+    font-size: 10px;
+    color: var(--ink-mute);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+    font-weight: 600;
+  }
+  .chat-msg.user .role { color: var(--lime); }
+  .chat-msg .bubble {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--line);
+    padding: 14px 18px;
+    border-radius: 14px;
+    display: inline-block;
+    text-align: left;
+    font-size: 14px;
+    color: var(--white-soft);
+    line-height: 1.5;
+  }
+  .chat-msg.user .bubble {
+    background: var(--lime-soft);
+    border-color: var(--line-lime);
+    color: var(--white);
+  }
+  .chat-msg .bubble strong { color: var(--lime); font-weight: 700; }
+  .chat-tool-call {
+    margin-top: 10px;
+    background: rgba(229,255,53,0.04);
+    border-left: 2px solid var(--lime);
+    padding: 8px 12px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11.5px;
+    color: var(--lime);
+    border-radius: 0 8px 8px 0;
+  }
+  .chat-table {
+    margin-top: 10px;
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12.5px;
+    font-family: 'DM Mono', monospace;
+  }
+  .chat-table th, .chat-table td {
+    padding: 6px 10px;
+    border-bottom: 1px solid var(--line);
+    text-align: left;
+    color: var(--white-soft);
+  }
+  .chat-table th {
+    color: var(--lime);
+    font-weight: 700;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .chat-table td.num { color: var(--lime); font-weight: 700; }
+
+  .typing {
+    display: inline-flex;
+    gap: 4px;
+    padding: 12px 18px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+  }
+  .typing span {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--lime);
+    animation: tdot 1.4s infinite;
+  }
+  .typing span:nth-child(2) { animation-delay: .2s; }
+  .typing span:nth-child(3) { animation-delay: .4s; }
+  @keyframes tdot {
+    0%,100% { opacity: 0.3; transform: translateY(0); }
+    50% { opacity: 1; transform: translateY(-3px); }
+  }
+
+  /* ===== PERSONAS ===== */
+  .personas {
+    border-top: 1px solid var(--line);
+  }
+  .personas-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  .persona-card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    padding: 36px 32px;
+    transition: all .25s;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+  }
+  .persona-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; height: 4px;
+    background: var(--p-color, var(--lime));
+  }
+  .persona-card[data-p="cmo"]   { --p-color: var(--lime); }
+  .persona-card[data-p="dirm"]  { --p-color: var(--cat-data); }
+  .persona-card[data-p="brand"] { --p-color: var(--cat-social); }
+  .persona-card[data-p="cio"]   { --p-color: var(--cat-thirdp); }
+  .persona-card:hover {
+    border-color: var(--p-color);
+    transform: translateY(-4px);
+  }
+  .persona-tag {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--p-color, var(--lime));
+    margin-bottom: 18px;
+  }
+  .persona-card h3 {
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    line-height: 1.15;
+    margin-bottom: 16px;
+  }
+  .persona-card h3 .lime { font-style: italic; font-weight: 500; color: var(--p-color, var(--lime)); }
+  .persona-quote {
+    font-style: italic;
+    color: var(--white-soft);
+    font-size: 15px;
+    line-height: 1.5;
+    border-left: 2px solid var(--p-color, var(--lime));
+    padding-left: 14px;
+    margin-bottom: 24px;
+  }
+  .persona-usecases {
+    list-style: none;
+    margin-bottom: 24px;
+  }
+  .persona-usecases li {
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    font-size: 14px;
+    color: var(--white-soft);
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  .persona-usecases li:last-child { border-bottom: 0; }
+  .persona-usecases li::before {
+    content: '→';
+    color: var(--p-color, var(--lime));
+    font-weight: 800;
+  }
+  .persona-usecases li strong { color: var(--white); font-weight: 600; }
+  .persona-mcp {
+    margin-top: auto;
+    padding-top: 18px;
+    border-top: 1px solid var(--line);
+    font-size: 11px;
+    color: var(--ink-mute);
+    letter-spacing: 0.04em;
+  }
+  .persona-mcp strong {
+    color: var(--p-color, var(--lime));
+    font-weight: 700;
+    font-family: 'DM Mono', monospace;
+  }
+
   /* ===== UTIL ===== */
   .mcp-card.hidden { display: none; }
 
@@ -782,9 +1258,11 @@
     <div class="nav-links">
       <a href="index.html">Home</a>
       <a href="be-os.html">Be OS</a>
-      <a href="#how">Come funziona</a>
+      <a href="#demo">Demo</a>
       <a href="#catalog">Catalogo</a>
+      <a href="#personas">Per chi è</a>
       <a href="#pricing">Prezzi</a>
+      <a href="mcp-docs.html" style="color: var(--lime);">Docs ✦</a>
     </div>
     <a href="#cta" class="btn-pill">Prova gratis<span class="arrow">↗</span></a>
   </div>
@@ -868,11 +1346,153 @@
   </div>
 </section>
 
+<!-- ============ DEMO FLOW ============ -->
+<section id="demo" class="demo">
+  <div class="container">
+    <div class="section-head">
+      <div class="eyebrow">02 · Live demo · 30 secondi</div>
+      <h2>Guarda come <span class="lime">funziona</span>.</h2>
+      <p>Clicca sugli step a sinistra o lascia che la demo si muova da sola. Niente video, niente download — solo Claude Desktop reale.</p>
+    </div>
+
+    <div class="demo-stage">
+      <!-- STEPS NAV -->
+      <div>
+        <ul class="demo-steps">
+          <li>
+            <button class="demo-step-btn active" data-step="1">
+              <span class="ds-n">01</span>
+              <span>
+                <span class="ds-t">Ti <span class="lime">connetti</span></span>
+                <span class="ds-d">Aggiungi NDU MCP Gateway alla lista connettori del tuo AI assistant.</span>
+              </span>
+            </button>
+          </li>
+          <li>
+            <button class="demo-step-btn" data-step="2">
+              <span class="ds-n">02</span>
+              <span>
+                <span class="ds-t">Ti <span class="lime">autentichi</span></span>
+                <span class="ds-d">OAuth in browser, una sola volta. Credenziali crittografate sul gateway.</span>
+              </span>
+            </button>
+          </li>
+          <li>
+            <button class="demo-step-btn" data-step="3">
+              <span class="ds-n">03</span>
+              <span>
+                <span class="ds-t">Lo <span class="lime">usi</span></span>
+                <span class="ds-d">Chiedi all'AI quello che ti serve — risponde con i tuoi dati reali.</span>
+              </span>
+            </button>
+          </li>
+        </ul>
+        <div class="demo-progress">
+          <span class="play-btn" id="demo-play">▶</span>
+          <span id="demo-status">Auto-play attivo · ogni 6s</span>
+        </div>
+      </div>
+
+      <!-- WINDOW -->
+      <div class="demo-window">
+        <div class="dw-bar">
+          <div class="dots"><span></span><span></span><span></span></div>
+          <div class="title" id="dw-title">Claude Desktop · Settings · Connectors</div>
+        </div>
+        <div class="dw-body">
+
+          <!-- FRAME 1 — Connector picker -->
+          <div class="ds-frame active" data-frame="1">
+            <div class="demo-h">Add Connector</div>
+            <div class="demo-h-title">Scegli un connettore da aggiungere a Claude</div>
+            <div class="conn-list">
+              <div class="conn-item">
+                <div class="ic">G</div>Google Drive
+              </div>
+              <div class="conn-item">
+                <div class="ic">S</div>Slack
+              </div>
+              <div class="conn-item highlight">
+                <div class="ic">N</div>NDU MCP Gateway
+                <div class="conn-cursor"></div>
+              </div>
+              <div class="conn-item">
+                <div class="ic">G</div>GitHub
+              </div>
+              <div class="conn-item">
+                <div class="ic">N</div>Notion
+              </div>
+              <div class="conn-item">
+                <div class="ic">L</div>Linear
+              </div>
+            </div>
+          </div>
+
+          <!-- FRAME 2 — OAuth -->
+          <div class="ds-frame" data-frame="2">
+            <div class="demo-h">OAuth · mcp-gateway.weinnovatebeyond.com</div>
+            <div class="demo-h-title">Autorizza Claude ad accedere ai tuoi MCP server</div>
+            <div class="oauth-box">
+              <div class="oauth-logos">
+                <div class="o-shield"></div>
+                <span class="o-name">NDU</span>
+                <span class="o-pipe">/</span>
+                <span class="o-name">Claude Desktop</span>
+              </div>
+              <div class="oauth-title">Accedi al tuo gateway</div>
+              <div class="oauth-sub">Verrai reindirizzato dopo l'autenticazione</div>
+              <div class="oauth-field">
+                <div class="lbl">Email</div>
+                marco.rossi@brand.it
+              </div>
+              <div class="oauth-field">
+                <div class="lbl">Password</div>
+                ••••••••••••••
+              </div>
+              <button class="oauth-btn">Accedi al Gateway →</button>
+              <div class="oauth-meta">🔒 OAuth 2.1 · token rotation · zero training</div>
+            </div>
+          </div>
+
+          <!-- FRAME 3 — Chat working -->
+          <div class="ds-frame" data-frame="3">
+            <div class="demo-h">Claude Desktop · with NDU MCP Gateway</div>
+
+            <div class="chat-msg user">
+              <div class="role">Marco · 14:32</div>
+              <div class="bubble">Dimmi quali sono stati i 5 post TikTok più visti di novembre 2026 nel settore beauty.</div>
+            </div>
+
+            <div class="chat-msg">
+              <div class="role">Claude</div>
+              <div class="bubble">
+                Interrogo il database AIQ via NDU MCP Gateway per i post TikTok di novembre 2026 nel cluster beauty.
+                <div class="chat-tool-call">→ aiq-opensearch.search({ platform: "tt", category: "beauty", date: "2026-11", sort: "views", limit: 5 })</div>
+                Ecco i 5 post più visti:
+                <table class="chat-table">
+                  <tr><th>Creator</th><th>Views</th><th>Like</th><th>ER</th></tr>
+                  <tr><td>@feliciamarie__</td><td class="num">8.2M</td><td>612K</td><td>9.4%</td></tr>
+                  <tr><td>@valentinaferragni</td><td class="num">6.1M</td><td>483K</td><td>8.9%</td></tr>
+                  <tr><td>@iconemma</td><td class="num">4.7M</td><td>290K</td><td>6.8%</td></tr>
+                  <tr><td>@ravelliclara</td><td class="num">3.9M</td><td>245K</td><td>6.5%</td></tr>
+                  <tr><td>@beautyzone_it</td><td class="num">3.1M</td><td>178K</td><td>5.9%</td></tr>
+                </table>
+                <strong>Insight</strong>: 3 dei 5 contenuti sono "GRWM" mattutini, sotto i 45s.
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ============ MCP CATALOG ============ -->
 <section id="catalog" class="catalog">
   <div class="container">
     <div class="section-head">
-      <div class="eyebrow">02 · Il catalogo</div>
+      <div class="eyebrow">03 · Il catalogo</div>
       <h2>30+ MCP server pronti.<br/><span class="lime">I tuoi</span>, su richiesta.</h2>
       <p>
         Attivi quello che ti serve — paghi solo quello che usi. I server NDU sono già live e maintained.
@@ -1052,7 +1672,7 @@
 <section class="compat">
   <div class="container">
     <div class="section-head">
-      <div class="eyebrow">03 · Compatibilità</div>
+      <div class="eyebrow">04 · Compatibilità</div>
       <h2>Funziona con<br/><span class="lime">qualunque</span> AI assistant.</h2>
       <p>Costruito sullo standard MCP aperto. Una volta connesso il gateway, lo stesso accesso ai dati funziona ovunque — Claude, ChatGPT, IDE, custom agents.</p>
     </div>
@@ -1095,7 +1715,7 @@
 <section id="trust" class="trust">
   <div class="container">
     <div class="section-head">
-      <div class="eyebrow">04 · La tua sicurezza</div>
+      <div class="eyebrow">06 · La tua sicurezza</div>
       <h2>I tuoi dati.<br/>Le tue <span class="lime">regole</span>.</h2>
       <p>Il gateway è la porta — non è il magazzino. I tuoi dati non passano mai dai nostri server in chiaro né alimentano modelli di training.</p>
     </div>
@@ -1120,11 +1740,78 @@
   </div>
 </section>
 
+<!-- ============ PERSONAS ============ -->
+<section id="personas" class="personas">
+  <div class="container">
+    <div class="section-head">
+      <div class="eyebrow">05 · Per chi è</div>
+      <h2>Quattro ruoli.<br/>Quattro <span class="lime">superpoteri</span>.</h2>
+      <p>Il gateway non parla a "il marketing in generale". Parla al CMO che vuole una vista d'insieme, al direttore che orchestra i team, al brand manager che esegue, al CIO che presidia la governance. Ognuno con le sue domande, ognuno con le sue risposte.</p>
+    </div>
+
+    <div class="personas-grid">
+
+      <!-- CMO -->
+      <article class="persona-card" data-p="cmo">
+        <div class="persona-tag">CMO · C-Level</div>
+        <h3>Decisioni di <span class="lime">portafoglio</span>, non di pancia.</h3>
+        <div class="persona-quote">"Voglio sapere ogni lunedì mattina dov'è il mio business — senza aprire 12 dashboard."</div>
+        <ul class="persona-usecases">
+          <li><strong>Brief executive automatico</strong>: ogni venerdì ricevi il rapporto strategico via Claude — performance, sentiment, concorrenza</li>
+          <li><strong>Simulazione what-if</strong>: "se sposto il 15% del budget da TV a creator, cosa succede?"</li>
+          <li><strong>Board-ready insight</strong>: dati pronti per il CdA in 5 minuti, non in 5 giorni</li>
+        </ul>
+        <div class="persona-mcp">MCP rilevanti: <strong>AIQ · Behavioral Graph · Twin Lab · DMP</strong></div>
+      </article>
+
+      <!-- DIR MKT -->
+      <article class="persona-card" data-p="dirm">
+        <div class="persona-tag">Direttore Marketing</div>
+        <h3>Orchestrare un <span class="lime">team ridotto</span> con più output.</h3>
+        <div class="persona-quote">"Ho la metà delle persone e il doppio dei brief. La mia AI deve essere il mio braccio destro."</div>
+        <ul class="persona-usecases">
+          <li><strong>Allocation cross-campagna</strong>: il sistema ti dice dove spostare i budget in tempo reale</li>
+          <li><strong>Tone of voice on demand</strong>: copy on-brand per qualunque canale, in qualunque lingua</li>
+          <li><strong>Forecast settimanale</strong>: KPI atteso vs reale, alert quando una campagna si stacca dal piano</li>
+        </ul>
+        <div class="persona-mcp">MCP rilevanti: <strong>Meta SPP/DSP · Geo Traffic · GWI Spark · FLU Plus</strong></div>
+      </article>
+
+      <!-- BRAND MGR -->
+      <article class="persona-card" data-p="brand">
+        <div class="persona-tag">Brand Manager · Category</div>
+        <h3>Execution di <span class="lime">qualità</span> sulla mia categoria.</h3>
+        <div class="persona-quote">"Lancio 4 prodotti l'anno. Ognuno ha il suo target, il suo claim, la sua finestra. Devo essere veloce e precisa."</div>
+        <ul class="persona-usecases">
+          <li><strong>Scouting creator</strong>: 130M creator filtrati per audience match, in pochi prompt</li>
+          <li><strong>Claim testing pre-launch</strong>: simulazione su consumer sintetici prima di andare in mercato</li>
+          <li><strong>Competitor watch</strong>: alert quando un concorrente lancia su tua categoria</li>
+        </ul>
+        <div class="persona-mcp">MCP rilevanti: <strong>FLU Plus · AIQ · Twin Lab · Eumetra Survey</strong></div>
+      </article>
+
+      <!-- CIO -->
+      <article class="persona-card" data-p="cio">
+        <div class="persona-tag">CIO · CDO · Data Lead</div>
+        <h3>Integrare l'AI <span class="lime">senza</span> lock-in.</h3>
+        <div class="persona-quote">"Devo dare AI alle business unit, ma non posso permettermi né dataleaks né dipendenze da un singolo vendor."</div>
+        <ul class="persona-usecases">
+          <li><strong>Audit trail completo</strong>: chi ha chiesto cosa, quando, con quale tool — log enterprise-grade</li>
+          <li><strong>SSO + role-based access</strong>: ogni utente vede solo i dati del suo perimetro</li>
+          <li><strong>Standard aperto</strong>: MCP è uno standard, non un lock-in. Cambi AI, mantieni il gateway</li>
+        </ul>
+        <div class="persona-mcp">MCP rilevanti: <strong>Custom MCP Server · DMP · Your CRM · Your DWH</strong></div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
 <!-- ============ PRICING ============ -->
 <section id="pricing" class="pricing">
   <div class="container">
     <div class="section-head">
-      <div class="eyebrow">05 · Prezzi</div>
+      <div class="eyebrow">07 · Prezzi</div>
       <h2>Paga solo quello<br/>che <span class="lime">usi davvero</span>.</h2>
       <p>Tre piani. Niente setup fee sotto Pro. Niente lock-in: cancelli quando vuoi. Per Enterprise costruiamo l'offerta sui tuoi volumi.</p>
     </div>
@@ -1245,6 +1932,60 @@
       });
     });
   });
+
+  // ===== Demo flow =====
+  const stepBtns = document.querySelectorAll('.demo-step-btn');
+  const frames   = document.querySelectorAll('.ds-frame');
+  const dwTitle  = document.getElementById('dw-title');
+  const playBtn  = document.getElementById('demo-play');
+  const status   = document.getElementById('demo-status');
+  const titles = {
+    1: 'Claude Desktop · Settings · Connectors',
+    2: 'Browser · mcp-gateway.weinnovatebeyond.com',
+    3: 'Claude Desktop · Chat · Beauty Insights'
+  };
+  let current = 1;
+  let autoPlay = true;
+  let timer;
+
+  function setStep(n) {
+    current = n;
+    stepBtns.forEach(b => b.classList.toggle('active', +b.dataset.step === n));
+    frames.forEach(f => f.classList.toggle('active', +f.dataset.frame === n));
+    if (dwTitle) dwTitle.textContent = titles[n] || '';
+  }
+
+  function tick() {
+    setStep(current % 3 + 1);
+  }
+  function startAuto() {
+    clearInterval(timer);
+    timer = setInterval(tick, 6000);
+    autoPlay = true;
+    if (playBtn) playBtn.textContent = '⏸';
+    if (status) status.textContent = 'Auto-play attivo · ogni 6s';
+  }
+  function stopAuto() {
+    clearInterval(timer);
+    autoPlay = false;
+    if (playBtn) playBtn.textContent = '▶';
+    if (status) status.textContent = 'Auto-play in pausa';
+  }
+
+  stepBtns.forEach(b => {
+    b.addEventListener('click', () => {
+      setStep(+b.dataset.step);
+      stopAuto();
+    });
+  });
+  if (playBtn) {
+    playBtn.addEventListener('click', () => {
+      if (autoPlay) stopAuto();
+      else startAuto();
+    });
+  }
+  // start auto play
+  startAuto();
 </script>
 
 </body>
