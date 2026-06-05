@@ -1,0 +1,1251 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>NDU MCP Gateway · Un gateway, tutta la tua intelligenza</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=DM+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --ink: #000000;
+    --ink-2: #0d0d0d;
+    --ink-3: #1a1a1a;
+    --card: #111111;
+    --card-2: #161616;
+    --white: #ffffff;
+    --white-soft: rgba(255,255,255,0.78);
+    --ink-mute: rgba(255,255,255,0.55);
+    --line: rgba(255,255,255,0.12);
+    --line-lime: rgba(229,255,53,0.25);
+    --lime: #E5FF35;
+    --lime-dark: #b8cc24;
+    --lime-soft: rgba(229,255,53,0.12);
+    /* Family colors per MCP categories */
+    --cat-data:     #5096ff;
+    --cat-social:   #f06ba0;
+    --cat-retail:   #ffa632;
+    --cat-research: #5dd0ca;
+    --cat-thirdp:   #b07bff;
+    --cat-your:     var(--lime);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--ink);
+    color: var(--white);
+    font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  a { color: inherit; text-decoration: none; }
+  button { font: inherit; cursor: pointer; border: 0; background: none; color: inherit; }
+  .container { max-width: 1280px; margin: 0 auto; padding: 0 40px; }
+  .mono { font-family: 'DM Mono', monospace; }
+
+  /* ===== NAV ===== */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(0,0,0,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-inner {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 0;
+  }
+  .logo {
+    display: flex; align-items: baseline; gap: 8px;
+    font-weight: 800; font-size: 22px; letter-spacing: -0.02em;
+    color: var(--white);
+  }
+  .logo .shield {
+    width: 22px; height: 26px;
+    background: var(--lime);
+    clip-path: polygon(50% 0%, 100% 0, 100% 65%, 50% 100%, 0 65%, 0 0);
+    display: inline-block;
+    margin-right: 2px;
+    position: relative; top: 4px;
+  }
+  .logo .tag { font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.6); }
+  .logo .sep { color: rgba(255,255,255,0.3); margin: 0 6px; }
+  .logo .scope { color: var(--lime); font-weight: 700; font-size: 14px; }
+  .nav-links {
+    display: flex; gap: 28px;
+    font-size: 14px; font-weight: 500;
+  }
+  .nav-links a {
+    color: var(--white);
+    opacity: 0.78;
+    transition: all .2s;
+  }
+  .nav-links a:hover { color: var(--lime); opacity: 1; }
+  .btn-pill {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 10px 18px;
+    background: var(--lime);
+    color: var(--ink);
+    border-radius: 999px;
+    font-size: 13px; font-weight: 700;
+    transition: all .25s;
+  }
+  .btn-pill:hover { background: var(--white); }
+  .btn-pill .arrow {
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    background: var(--ink);
+    color: var(--lime);
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 11px;
+    margin-right: -6px;
+  }
+  .btn-pill.dark {
+    background: transparent;
+    color: var(--white);
+    border: 1px solid var(--white);
+  }
+  .btn-pill.dark .arrow { background: var(--white); color: var(--ink); }
+  .btn-pill.dark:hover { background: var(--white); color: var(--ink); }
+  .btn-pill.dark:hover .arrow { background: var(--ink); color: var(--white); }
+
+  /* ===== EYEBROW ===== */
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--lime);
+    margin-bottom: 24px;
+  }
+  .eyebrow::before {
+    content: '';
+    width: 28px; height: 1px;
+    background: var(--lime);
+  }
+
+  /* ===== HERO ===== */
+  .hero {
+    padding: 100px 0 90px;
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid var(--line);
+  }
+  .hero-blob {
+    position: absolute;
+    width: 800px; height: 800px;
+    border-radius: 50%;
+    background: var(--lime);
+    filter: blur(150px);
+    opacity: 0.12;
+    top: -200px; right: -200px;
+    pointer-events: none;
+  }
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(229,255,53,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(229,255,53,0.04) 1px, transparent 1px);
+    background-size: 64px 64px;
+    mask-image: radial-gradient(ellipse at center, black 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-inner {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 16px;
+    border: 1px solid var(--lime);
+    background: var(--lime-soft);
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--lime);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    margin-bottom: 32px;
+  }
+  .hero-tag::before {
+    content: '';
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--lime);
+    box-shadow: 0 0 10px var(--lime);
+  }
+  .hero h1 {
+    font-size: clamp(48px, 6.5vw, 92px);
+    font-weight: 800;
+    letter-spacing: -0.045em;
+    line-height: 0.95;
+    color: var(--white);
+    margin-bottom: 28px;
+  }
+  .hero h1 .lime { color: var(--lime); font-style: italic; font-weight: 500; }
+  .hero p {
+    font-size: 19px;
+    color: var(--white-soft);
+    max-width: 580px;
+    line-height: 1.5;
+    margin-bottom: 36px;
+  }
+  .hero-cta {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+
+  /* Hero diagram (right) */
+  .hero-diagram {
+    position: relative;
+    aspect-ratio: 1;
+  }
+  .hd-center {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 140px; height: 140px;
+    border-radius: 50%;
+    background: var(--lime);
+    color: var(--ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    font-weight: 800;
+    font-size: 16px;
+    letter-spacing: -0.01em;
+    box-shadow: 0 0 60px rgba(229,255,53,0.4);
+    z-index: 5;
+    text-align: center;
+  }
+  .hd-center small {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: rgba(0,0,0,0.65);
+    margin-bottom: 4px;
+  }
+  .hd-orbit {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    border: 1px dashed rgba(229,255,53,0.25);
+    border-radius: 50%;
+  }
+  .hd-orbit.o1 { width: 60%; height: 60%; }
+  .hd-orbit.o2 { width: 100%; height: 100%; }
+  .hd-node {
+    position: absolute;
+    background: var(--ink-2);
+    border: 1px solid var(--line-lime);
+    border-radius: 12px;
+    padding: 10px 14px;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--white);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    z-index: 4;
+    white-space: nowrap;
+  }
+  .hd-node .dot {
+    width: 8px; height: 8px;
+    border-radius: 2px;
+    background: var(--node-color, var(--lime));
+  }
+  .hd-node.n1 { top: 5%;  left: 50%; transform: translateX(-50%); --node-color: var(--cat-data); }
+  .hd-node.n2 { top: 25%; right: -10%; --node-color: var(--cat-social); }
+  .hd-node.n3 { bottom: 25%; right: -5%; --node-color: var(--cat-retail); }
+  .hd-node.n4 { bottom: 5%; left: 50%; transform: translateX(-50%); --node-color: var(--cat-research); }
+  .hd-node.n5 { bottom: 25%; left: -10%; --node-color: var(--cat-thirdp); }
+  .hd-node.n6 { top: 25%; left: -5%; --node-color: var(--cat-your); }
+
+  /* ===== HOW IT WORKS · 3 STEP ===== */
+  section { padding: 100px 0; position: relative; }
+  .section-head {
+    margin-bottom: 60px;
+    max-width: 900px;
+  }
+  .section-head h2 {
+    font-size: clamp(36px, 5vw, 68px);
+    font-weight: 700;
+    letter-spacing: -0.035em;
+    line-height: 1.02;
+  }
+  .section-head h2 .lime { color: var(--lime); font-style: italic; font-weight: 500; }
+  .section-head p {
+    font-size: 17px;
+    color: var(--white-soft);
+    margin-top: 20px;
+    max-width: 640px;
+    line-height: 1.55;
+  }
+
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    position: relative;
+  }
+  .steps::before {
+    content: '';
+    position: absolute;
+    left: 12%; right: 12%;
+    top: 60px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--lime) 20%, var(--lime) 80%, transparent);
+    opacity: 0.4;
+    z-index: 0;
+  }
+  .step {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    padding: 32px;
+    position: relative;
+    z-index: 1;
+    transition: border-color .25s;
+  }
+  .step:hover { border-color: var(--line-lime); }
+  .step-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px; height: 48px;
+    border-radius: 50%;
+    background: var(--lime);
+    color: var(--ink);
+    font-weight: 800;
+    font-size: 18px;
+    margin-bottom: 24px;
+    box-shadow: 0 0 30px rgba(229,255,53,0.3);
+  }
+  .step h3 {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 10px;
+    line-height: 1.15;
+  }
+  .step h3 .lime { color: var(--lime); font-style: italic; font-weight: 500; }
+  .step p {
+    font-size: 14.5px;
+    color: var(--white-soft);
+    line-height: 1.6;
+  }
+  .step .step-tech {
+    margin-top: 18px;
+    padding-top: 18px;
+    border-top: 1px solid var(--line);
+    font-family: 'DM Mono', monospace;
+    font-size: 11.5px;
+    color: var(--lime);
+    letter-spacing: 0.04em;
+  }
+
+  /* ===== MCP CATALOG ===== */
+  .catalog { border-top: 1px solid var(--line); }
+  .cat-filter {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+  }
+  .cat-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--line);
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--white-soft);
+    cursor: pointer;
+    transition: all .2s;
+  }
+  .cat-btn:hover { color: var(--white); }
+  .cat-btn.active {
+    border-color: var(--lime);
+    background: var(--lime-soft);
+    color: var(--white);
+  }
+  .cat-btn .swatch {
+    width: 8px; height: 8px;
+    border-radius: 2px;
+    background: var(--lime);
+  }
+  .cat-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .mcp-card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 24px;
+    transition: all .25s;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .mcp-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; height: 3px;
+    background: var(--cat-color, var(--lime));
+  }
+  .mcp-card[data-cat="your"]     { --cat-color: var(--cat-your); }
+  .mcp-card[data-cat="data"]     { --cat-color: var(--cat-data); }
+  .mcp-card[data-cat="social"]   { --cat-color: var(--cat-social); }
+  .mcp-card[data-cat="retail"]   { --cat-color: var(--cat-retail); }
+  .mcp-card[data-cat="research"] { --cat-color: var(--cat-research); }
+  .mcp-card[data-cat="thirdp"]   { --cat-color: var(--cat-thirdp); }
+  .mcp-card:hover {
+    border-color: var(--cat-color);
+    transform: translateY(-3px);
+  }
+  .mcp-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    margin-bottom: 14px;
+  }
+  .mcp-icon {
+    width: 40px; height: 40px;
+    border-radius: 10px;
+    background: var(--cat-color);
+    color: var(--ink);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800;
+    font-size: 14px;
+    letter-spacing: -0.02em;
+  }
+  .mcp-status {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 4px;
+    background: var(--lime-soft);
+    color: var(--lime);
+  }
+  .mcp-status.soon {
+    background: rgba(255,255,255,0.05);
+    color: var(--ink-mute);
+  }
+  .mcp-card h3 {
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    margin-bottom: 6px;
+  }
+  .mcp-card .mcp-cat {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--cat-color);
+    margin-bottom: 12px;
+  }
+  .mcp-card .mcp-desc {
+    font-size: 13.5px;
+    color: var(--white-soft);
+    line-height: 1.5;
+    flex: 1;
+    margin-bottom: 18px;
+  }
+  .mcp-foot {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 14px;
+    border-top: 1px solid var(--line);
+    font-size: 11.5px;
+  }
+  .mcp-tools {
+    color: var(--ink-mute);
+    font-family: 'DM Mono', monospace;
+  }
+  .mcp-tools strong { color: var(--lime); font-weight: 700; }
+  .mcp-tier {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--white-soft);
+  }
+
+  /* ===== AI COMPATIBILITY ===== */
+  .compat {
+    border-top: 1px solid var(--line);
+    background: linear-gradient(180deg, var(--ink) 0%, var(--ink-2) 100%);
+  }
+  .compat-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 16px;
+    margin-top: 40px;
+  }
+  .compat-card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 24px 20px;
+    text-align: center;
+    transition: border-color .2s;
+  }
+  .compat-card:hover { border-color: var(--line-lime); }
+  .compat-card .ai-name {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: -0.01em;
+    margin-bottom: 4px;
+  }
+  .compat-card .ai-vendor {
+    font-size: 11px;
+    color: var(--ink-mute);
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.04em;
+  }
+  .compat-card .ai-icon {
+    font-size: 24px;
+    margin-bottom: 12px;
+    color: var(--lime);
+    font-weight: 800;
+  }
+
+  /* ===== TRUST ===== */
+  .trust {
+    border-top: 1px solid var(--line);
+  }
+  .trust-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .trust-card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 32px;
+  }
+  .trust-card .icon {
+    font-size: 24px;
+    color: var(--lime);
+    margin-bottom: 18px;
+    font-weight: 800;
+  }
+  .trust-card h3 {
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 10px;
+  }
+  .trust-card p {
+    font-size: 14px;
+    color: var(--white-soft);
+    line-height: 1.55;
+  }
+
+  /* ===== PRICING ===== */
+  .pricing { border-top: 1px solid var(--line); }
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: 56px;
+  }
+  .plan {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 24px;
+    padding: 36px 32px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    transition: border-color .25s;
+  }
+  .plan:hover { border-color: var(--line-lime); }
+  .plan.featured {
+    background: linear-gradient(180deg, var(--lime-soft) 0%, var(--card) 50%);
+    border: 1px solid var(--lime);
+    box-shadow: 0 0 60px rgba(229,255,53,0.1);
+  }
+  .plan-badge {
+    position: absolute;
+    top: -12px; left: 50%;
+    transform: translateX(-50%);
+    background: var(--lime);
+    color: var(--ink);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 999px;
+  }
+  .plan-name {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 6px;
+  }
+  .plan-tag {
+    font-size: 13px;
+    color: var(--white-soft);
+    margin-bottom: 24px;
+  }
+  .plan-price {
+    font-family: 'DM Mono', monospace;
+    font-size: 44px;
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: -0.03em;
+    margin-bottom: 4px;
+  }
+  .plan-price .unit {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--ink-mute);
+    margin-left: 4px;
+  }
+  .plan-price .from {
+    font-size: 12px;
+    color: var(--ink-mute);
+    font-weight: 500;
+    display: block;
+    margin-bottom: -2px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+  }
+  .plan ul {
+    list-style: none;
+    margin: 28px 0;
+    flex: 1;
+  }
+  .plan li {
+    padding: 8px 0;
+    font-size: 14px;
+    color: var(--white-soft);
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .plan li:last-child { border-bottom: 0; }
+  .plan li::before {
+    content: '✓';
+    color: var(--lime);
+    font-weight: 800;
+    flex-shrink: 0;
+  }
+  .plan li.disabled { color: var(--ink-mute); }
+  .plan li.disabled::before { content: '×'; color: var(--ink-mute); }
+  .plan .plan-cta {
+    display: block;
+    width: 100%;
+    padding: 14px;
+    text-align: center;
+    border-radius: 999px;
+    background: transparent;
+    color: var(--white);
+    border: 1px solid var(--white);
+    font-size: 14px;
+    font-weight: 700;
+    transition: all .2s;
+  }
+  .plan .plan-cta:hover {
+    background: var(--white);
+    color: var(--ink);
+  }
+  .plan.featured .plan-cta {
+    background: var(--lime);
+    color: var(--ink);
+    border-color: var(--lime);
+  }
+  .plan.featured .plan-cta:hover {
+    background: var(--ink);
+    color: var(--lime);
+  }
+
+  /* ===== CTA STRIP ===== */
+  .cta-strip {
+    background: var(--lime);
+    color: var(--ink);
+    padding: 120px 0;
+    text-align: center;
+    border-top: 1px solid var(--line);
+  }
+  .cta-strip h2 {
+    font-size: clamp(44px, 6vw, 88px);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    line-height: 1.0;
+    max-width: 1000px;
+    margin: 0 auto 20px;
+  }
+  .cta-strip h2 .italic { font-style: italic; font-weight: 500; }
+  .cta-strip p {
+    font-size: 18px;
+    color: rgba(0,0,0,0.7);
+    max-width: 640px;
+    margin: 0 auto 36px;
+  }
+  .cta-strip .btn-pill {
+    background: var(--ink);
+    color: var(--white);
+    font-size: 15px;
+    padding: 14px 28px;
+  }
+  .cta-strip .btn-pill .arrow { background: var(--lime); color: var(--ink); }
+  .cta-strip .btn-pill:hover { background: var(--white); color: var(--ink); }
+
+  /* ===== FOOTER ===== */
+  footer {
+    background: var(--ink);
+    padding: 60px 0 32px;
+    border-top: 1px solid var(--line);
+    color: rgba(255,255,255,0.7);
+  }
+  .footer-inner {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 24px;
+    align-items: center;
+  }
+  .footer-meta {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-mute);
+    letter-spacing: 0.06em;
+  }
+  .footer-links {
+    display: flex; gap: 24px; font-size: 13px;
+  }
+  .footer-links a { color: var(--white-soft); transition: color .2s; }
+  .footer-links a:hover { color: var(--lime); }
+
+  /* ===== UTIL ===== */
+  .mcp-card.hidden { display: none; }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 1024px) {
+    .hero-inner { grid-template-columns: 1fr; gap: 60px; }
+    .hero-diagram { max-width: 500px; margin: 0 auto; }
+    .steps { grid-template-columns: 1fr; }
+    .steps::before { display: none; }
+    .cat-grid { grid-template-columns: 1fr; }
+    .compat-grid { grid-template-columns: repeat(3, 1fr); }
+    .trust-grid { grid-template-columns: 1fr; }
+    .pricing-grid { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+  }
+  @media (max-width: 600px) {
+    .compat-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<nav>
+  <div class="container nav-inner">
+    <div class="logo">
+      <span class="shield"></span>
+      ndu <span class="tag">tech</span>
+      <span class="sep">/</span>
+      <span class="scope">MCP Gateway</span>
+    </div>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="be-os.html">Be OS</a>
+      <a href="#how">Come funziona</a>
+      <a href="#catalog">Catalogo</a>
+      <a href="#pricing">Prezzi</a>
+    </div>
+    <a href="#cta" class="btn-pill">Prova gratis<span class="arrow">↗</span></a>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<header class="hero">
+  <div class="hero-blob"></div>
+  <div class="hero-grid"></div>
+
+  <div class="container hero-inner">
+    <div>
+      <div class="hero-tag">NDU MCP Gateway · Servizio in abbonamento</div>
+      <h1>
+        Un gateway.<br/>
+        Tutta la tua<br/>
+        <span class="lime">intelligenza</span>.
+      </h1>
+      <p>
+        Una sola autenticazione per collegare i tuoi sistemi ai dati di mercato NDU
+        e a qualsiasi AI assistant compatibile MCP. Il marketplace dei dati che parla
+        con Claude, ChatGPT, Cursor — e con i tuoi tool interni.
+      </p>
+      <div class="hero-cta">
+        <a href="#cta" class="btn-pill">Prova 14 giorni<span class="arrow">↗</span></a>
+        <a href="#catalog" class="btn-pill dark">Esplora il catalogo<span class="arrow">↗</span></a>
+      </div>
+    </div>
+
+    <!-- DIAGRAMMA -->
+    <div class="hero-diagram">
+      <div class="hd-orbit o2"></div>
+      <div class="hd-orbit o1"></div>
+      <div class="hd-center">
+        <small>NDU</small>
+        MCP Gateway
+      </div>
+      <div class="hd-node n1"><span class="dot"></span>I tuoi dati</div>
+      <div class="hd-node n2"><span class="dot"></span>AIQ Social</div>
+      <div class="hd-node n3"><span class="dot"></span>Retail Media</div>
+      <div class="hd-node n4"><span class="dot"></span>EMG Research</div>
+      <div class="hd-node n5"><span class="dot"></span>3rd party</div>
+      <div class="hd-node n6"><span class="dot"></span>FLU Creators</div>
+    </div>
+  </div>
+</header>
+
+<!-- ============ HOW IT WORKS ============ -->
+<section id="how">
+  <div class="container">
+    <div class="section-head">
+      <div class="eyebrow">01 · Come funziona</div>
+      <h2>Tre passi.<br/><span class="lime">Niente</span> infrastruttura da costruire.</h2>
+      <p>
+        Niente API custom, niente migrazioni, niente lock-in. Connetti i tuoi sistemi
+        al gateway tramite Model Context Protocol — lo standard aperto creato da Anthropic.
+        I tuoi dati restano dove vivono.
+      </p>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <h3>Ti <span class="lime">connetti</span>.</h3>
+        <p>Aggiungi NDU MCP Gateway al tuo Claude, ChatGPT, Cursor o a qualsiasi client compatibile MCP. Un clic e sei dentro.</p>
+        <div class="step-tech">→ Compatible with Claude Desktop · ChatGPT · Cursor · MCP-native clients</div>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <h3>Ti <span class="lime">autentichi</span>.</h3>
+        <p>OAuth in browser, una sola volta. Le credenziali vivono crittografate sul gateway, mai sul client AI.</p>
+        <div class="step-tech">→ OAuth 2.1 · SSO ready · token rotation · audit log</div>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <h3>Lo <span class="lime">usi</span>.</h3>
+        <p>Chiedi all'AI quello che ti serve — risponderà con i dati reali del tuo business + i dati di mercato che hai abilitato. Niente CSV, niente dashboard da consultare.</p>
+        <div class="step-tech">→ Natural language → real-time data → citation-grade output</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MCP CATALOG ============ -->
+<section id="catalog" class="catalog">
+  <div class="container">
+    <div class="section-head">
+      <div class="eyebrow">02 · Il catalogo</div>
+      <h2>30+ MCP server pronti.<br/><span class="lime">I tuoi</span>, su richiesta.</h2>
+      <p>
+        Attivi quello che ti serve — paghi solo quello che usi. I server NDU sono già live e maintained.
+        Per i tuoi sistemi (CRM, CDP, ERP) ti aiutiamo a costruire l'MCP server custom in 2 settimane.
+      </p>
+    </div>
+
+    <!-- FILTERS -->
+    <div class="cat-filter">
+      <button class="cat-btn active" data-cat="all">Tutti</button>
+      <button class="cat-btn" data-cat="your"><span class="swatch" style="background:var(--cat-your)"></span> I tuoi dati</button>
+      <button class="cat-btn" data-cat="social"><span class="swatch" style="background:var(--cat-social)"></span> Social &amp; Creator</button>
+      <button class="cat-btn" data-cat="data"><span class="swatch" style="background:var(--cat-data)"></span> Data &amp; Geo</button>
+      <button class="cat-btn" data-cat="retail"><span class="swatch" style="background:var(--cat-retail)"></span> Retail &amp; Media</button>
+      <button class="cat-btn" data-cat="research"><span class="swatch" style="background:var(--cat-research)"></span> Research</button>
+      <button class="cat-btn" data-cat="thirdp"><span class="swatch" style="background:var(--cat-thirdp)"></span> 3rd party</button>
+    </div>
+
+    <!-- GRID -->
+    <div class="cat-grid">
+
+      <!-- YOUR DATA -->
+      <article class="mcp-card" data-cat="your">
+        <div class="mcp-head"><div class="mcp-icon">YR</div><span class="mcp-status">Live</span></div>
+        <div class="mcp-cat">I tuoi dati</div>
+        <h3>Your CRM</h3>
+        <p class="mcp-desc">Connetti Salesforce, HubSpot, Pipedrive. L'AI legge clienti, deal e attività in tempo reale — i tuoi dati restano nei tuoi sistemi.</p>
+        <div class="mcp-foot"><span class="mcp-tools">Connettori <strong>5+</strong></span><span class="mcp-tier">Pro · Enterprise</span></div>
+      </article>
+
+      <article class="mcp-card" data-cat="your">
+        <div class="mcp-head"><div class="mcp-icon">YR</div><span class="mcp-status">Live</span></div>
+        <div class="mcp-cat">I tuoi dati</div>
+        <h3>Your CDP / Data Warehouse</h3>
+        <p class="mcp-desc">BigQuery, Snowflake, Redshift, Databricks. Query in linguaggio naturale sui tuoi customer data, senza scrivere SQL.</p>
+        <div class="mcp-foot"><span class="mcp-tools">Tool <strong>3</strong></span><span class="mcp-tier">Pro · Enterprise</span></div>
+      </article>
+
+      <article class="mcp-card" data-cat="your">
+        <div class="mcp-head"><div class="mcp-icon">YR</div><span class="mcp-status soon">Custom</span></div>
+        <div class="mcp-cat">I tuoi dati</div>
+        <h3>Custom MCP Server</h3>
+        <p class="mcp-desc">Hai un sistema proprietario? Lo costruiamo. SLA 2 settimane, manutenuto da noi, governance condivisa.</p>
+        <div class="mcp-foot"><span class="mcp-tools">Build on demand</span><span class="mcp-tier">Enterprise</span></div>
+      </article>
+
+      <!-- SOCIAL -->
+      <article class="mcp-card" data-cat="social">
+        <div class="mcp-head"><div class="mcp-icon">AQ</div><span class="mcp-status">Live</span></div>
+        <div class="mcp-cat">Social &amp; Creator</div>
+        <h3>AIQ OpenSearch</h3>
+        <p class="mcp-desc">100K creator italiani top monitorati ogni giorno, 25M contenuti analizzati. Trend detection e creator analytics in tempo reale.</p>
+        <div class="mcp-foot"><span class="mcp-tools">Tool <strong>5</strong></span><span class="mcp-tier">Starter · Pro</span></div>
+      </article>
+
+      <article class="mcp-card" data-cat="social">
+        <div class="mcp-head"><div class="mcp-icon">AQ</div><span class="mcp-status">Live</span></div>
+        <div class="mcp-cat">Social &amp; Creator</div>
+        <h3>AIQ PostgreSQL</h3>
+        <p class="mcp-desc">Query relazionali su tutto il database AIQ. Per chi vuole estrarre cohort, segmenti, time-series custom.</p>
+        <div class="mcp-foot"><span class="mcp-tools">Tool <strong>3</strong></span><span class="mcp-tier">Pro · Enterprise</span></div>
+      </article>
+
+      <article class="mcp-card" data-cat="social">
+        <div class="mcp-head"><div class="mcp-icon">FL</div><span class="mcp-status">Live</span></div>
+        <div class="mcp-cat">Social &amp; Creator</div>
+        <h3>FLU Plus · Influencer Marketing</h3>
+        <p class="mcp-desc">130M creator globali raggiungibili. Scouting, contracting, performance, payout — gestionale end-to-end IM.</p>
+        <div class="mcp-foot"><span class="mcp-tools">Tool <strong>3</strong></span><span class="mcp-tier">Pro · Enterprise</span></div>
+      </article>
+
+      <!-- DATA & GEO -->
+      <article class="mcp-card" data-cat="data">
+        <div class="mcp-head"><div class="mcp-icon">GT</div><span class="mcp-status">Live</span></div>
+        <div class="mcp-cat">Data &amp; Geo</div>
+        <h3>Geo Traffic SDK</h3>
+        <p class="mcp-desc">15M device italiani geolocalizzati. Site selection, trade area, OOH measurement, footfall — il mercato fisico in dato.</p>
+        <div class="mcp-foot"><span class="mcp-tools">Tool <strong>4</strong></span><span class="mcp-tier">Pro · Enterprise</span></div>
+      </article>
+
+      <article class="mcp-card" data-cat="data">
+        <div class="mcp-head"><div class="mcp-icon">DM</div><span class="mcp-status">Live</span></div>
+        <div class="mcp-cat">Data &amp; Geo</div>
+        <h3>DMP · Audience Hub</h3>
+        <p class="mcp-desc">Ingestion, elaborazione e attivazione dati multi-source. Tutti i tuoi audience in un solo grafo interrogabile.</p>
+        <div class="mcp-foot"><span class="mcp-tools">Tool <strong>5</strong></span><span class="mcp-tier">Pro · Enterprise</span></div>
+      </article>
+
+      <article class="mcp-card" data-cat="data">
+        <div class="mcp-head"><div class="mcp-icon">BG</div><span class="mcp-status soon">Q3 2026</span></div>
+        <div class="mcp-cat">Data &amp; Geo</div>
+        <h3>Behavioral Graph</h3>
+        <p class="mcp-desc">L'unico grafo italiano che chiude attenzione → intenzione → presenza → azione. Asset proprietario, riservato Enterprise.</p>
+        <div class="mcp-foot"><span class="mcp-tools">In beta</span><span class="mcp-tier">Enterprise</span></div>
+      </article>
+
+      <!-- RETAIL & MEDIA -->
+      <article class="mcp-card" data-cat="retail">
+        <div class="mcp-head"><div class="mcp-icon">RM</div><span class="mcp-status">Live</span></div>
+        <div class="mcp-cat">Retail &amp; Media</div>
+        <h3>Retail Media Network</h3>
+        <p class="mcp-desc">Campagne di digital signage, asset dispositivi e KPI sensori. Misura e attiva ogni metro quadrato fisico.</p>
+        <div class="mcp-foot"><span class="mcp-tools">Tool <strong>9</strong></span><span class="mcp-tier">Pro · Enterprise</span></div>
+      </article>
+
+      <article class="mcp-card" data-cat="retail">
+        <div class="mcp-head"><div class="mcp-icon">MD</div><span class="mcp-status">Live</span></div>
+        <div class="mcp-cat">Retail &amp; Media</div>
+        <h3>Meta SPP &amp; DSP</h3>
+        <p class="mcp-desc">Piattaforma centralizzata per la gestione media. Programmatic, social, search — tutto in un'unica console interrogabile.</p>
+        <div class="mcp-foot"><span class="mcp-tools">Tool <strong>4</strong></span><span class="mcp-tier">Pro · Enterprise</span></div>
+      </article>
+
+      <article class="mcp-card" data-cat="retail">
+        <div class="mcp-head"><div class="mcp-icon">PX</div><span class="mcp-status">Live</span></div>
+        <div class="mcp-cat">Retail &amp; Media</div>
+        <h3>Proximity Marketing</h3>
+        <p class="mcp-desc">1 miliardo di touchpoint attivati. Il messaggio giusto, alla persona giusta, nel momento esatto.</p>
+        <div class="mcp-foot"><span class="mcp-tools">Tool <strong>3</strong></span><span class="mcp-tier">Enterprise</span></div>
+      </article>
+
+      <!-- RESEARCH -->
+      <article class="mcp-card" data-cat="research">
+        <div class="mcp-head"><div class="mcp-icon">GW</div><span class="mcp-status">Live</span></div>
+        <div class="mcp-cat">Research</div>
+        <h3>GWI Spark</h3>
+        <p class="mcp-desc">Consumer research conversazionale. Interroga il pannello consumatori globale di GWI con linguaggio naturale.</p>
+        <div class="mcp-foot"><span class="mcp-tools">Tool <strong>3</strong></span><span class="mcp-tier">Starter · Pro</span></div>
+      </article>
+
+      <article class="mcp-card" data-cat="research">
+        <div class="mcp-head"><div class="mcp-icon">TL</div><span class="mcp-status">Live</span></div>
+        <div class="mcp-cat">Research</div>
+        <h3>Twin Lab · Synthetic Panel</h3>
+        <p class="mcp-desc">Panel sintetici EMG per simulazione ex-ante di campagne, claim, posizionamenti. Sbaglia in laboratorio, non in mercato.</p>
+        <div class="mcp-foot"><span class="mcp-tools">Tool <strong>2</strong></span><span class="mcp-tier">Enterprise</span></div>
+      </article>
+
+      <article class="mcp-card" data-cat="research">
+        <div class="mcp-head"><div class="mcp-icon">EM</div><span class="mcp-status soon">Q3 2026</span></div>
+        <div class="mcp-cat">Research</div>
+        <h3>Eumetra Survey</h3>
+        <p class="mcp-desc">Survey "Benessere e Sostenibilità 2025-2026". 2.196 domande, 3.000 italiani, 14 segmentazioni.</p>
+        <div class="mcp-foot"><span class="mcp-tools">In integrazione</span><span class="mcp-tier">Pro · Enterprise</span></div>
+      </article>
+
+      <!-- 3RD PARTY -->
+      <article class="mcp-card" data-cat="thirdp">
+        <div class="mcp-head"><div class="mcp-icon">AP</div><span class="mcp-status">Live</span></div>
+        <div class="mcp-cat">3rd party</div>
+        <h3>Apify Marketplace</h3>
+        <p class="mcp-desc">1.000+ Actor per web scraping e automazione. Ogni dato pubblico raggiungibile via AI conversazionale.</p>
+        <div class="mcp-foot"><span class="mcp-tools">Tool <strong>4</strong></span><span class="mcp-tier">Pro · Enterprise</span></div>
+      </article>
+
+      <article class="mcp-card" data-cat="thirdp">
+        <div class="mcp-head"><div class="mcp-icon">AT</div><span class="mcp-status">Live</span></div>
+        <div class="mcp-cat">3rd party</div>
+        <h3>Airtable</h3>
+        <p class="mcp-desc">Database collaborativi e gestionali leggeri. Interroga e modifica i tuoi base Airtable via AI.</p>
+        <div class="mcp-foot"><span class="mcp-tools">Tool <strong>3</strong></span><span class="mcp-tier">Starter · Pro</span></div>
+      </article>
+
+      <article class="mcp-card" data-cat="thirdp">
+        <div class="mcp-head"><div class="mcp-icon">NL</div><span class="mcp-status soon">Q4 2026</span></div>
+        <div class="mcp-cat">3rd party</div>
+        <h3>Nielsen · Ad Intel</h3>
+        <p class="mcp-desc">Investimenti pubblicitari del mercato italiano per brand, settore, canale. Concorrenza sotto controllo.</p>
+        <div class="mcp-foot"><span class="mcp-tools">In integrazione</span><span class="mcp-tier">Enterprise</span></div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ AI COMPATIBILITY ============ -->
+<section class="compat">
+  <div class="container">
+    <div class="section-head">
+      <div class="eyebrow">03 · Compatibilità</div>
+      <h2>Funziona con<br/><span class="lime">qualunque</span> AI assistant.</h2>
+      <p>Costruito sullo standard MCP aperto. Una volta connesso il gateway, lo stesso accesso ai dati funziona ovunque — Claude, ChatGPT, IDE, custom agents.</p>
+    </div>
+    <div class="compat-grid">
+      <div class="compat-card">
+        <div class="ai-icon">◆</div>
+        <div class="ai-name">Claude Desktop</div>
+        <div class="ai-vendor">Anthropic</div>
+      </div>
+      <div class="compat-card">
+        <div class="ai-icon">◇</div>
+        <div class="ai-name">Claude.ai</div>
+        <div class="ai-vendor">Anthropic Web</div>
+      </div>
+      <div class="compat-card">
+        <div class="ai-icon">◯</div>
+        <div class="ai-name">ChatGPT</div>
+        <div class="ai-vendor">OpenAI · Plus+</div>
+      </div>
+      <div class="compat-card">
+        <div class="ai-icon">▣</div>
+        <div class="ai-name">Cursor</div>
+        <div class="ai-vendor">Cursor IDE</div>
+      </div>
+      <div class="compat-card">
+        <div class="ai-icon">⬡</div>
+        <div class="ai-name">Cline / Continue</div>
+        <div class="ai-vendor">Open Source</div>
+      </div>
+      <div class="compat-card">
+        <div class="ai-icon">↯</div>
+        <div class="ai-name">Custom Agent</div>
+        <div class="ai-vendor">Your stack</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TRUST ============ -->
+<section id="trust" class="trust">
+  <div class="container">
+    <div class="section-head">
+      <div class="eyebrow">04 · La tua sicurezza</div>
+      <h2>I tuoi dati.<br/>Le tue <span class="lime">regole</span>.</h2>
+      <p>Il gateway è la porta — non è il magazzino. I tuoi dati non passano mai dai nostri server in chiaro né alimentano modelli di training.</p>
+    </div>
+
+    <div class="trust-grid">
+      <div class="trust-card">
+        <div class="icon">↯</div>
+        <h3>OAuth 2.1 + audit log</h3>
+        <p>Token a scadenza, rotation automatica, audit trail completo. Sai sempre chi ha chiesto cosa e quando.</p>
+      </div>
+      <div class="trust-card">
+        <div class="icon">⌧</div>
+        <h3>Zero training</h3>
+        <p>I tuoi dati non finiscono in nessun modello, neanche per fine-tuning. Contrattualizzato negli MSA.</p>
+      </div>
+      <div class="trust-card">
+        <div class="icon">§</div>
+        <h3>Ambienti dedicati</h3>
+        <p>Tenant isolato per cliente Enterprise. SSO, IP allowlist, perimetri per ruolo. Pronto per il tuo legal.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PRICING ============ -->
+<section id="pricing" class="pricing">
+  <div class="container">
+    <div class="section-head">
+      <div class="eyebrow">05 · Prezzi</div>
+      <h2>Paga solo quello<br/>che <span class="lime">usi davvero</span>.</h2>
+      <p>Tre piani. Niente setup fee sotto Pro. Niente lock-in: cancelli quando vuoi. Per Enterprise costruiamo l'offerta sui tuoi volumi.</p>
+    </div>
+
+    <div class="pricing-grid">
+      <article class="plan">
+        <div class="plan-name">Starter</div>
+        <div class="plan-tag">Per provare il sistema su un singolo workflow</div>
+        <div class="plan-price">
+          <span class="from">Da</span>
+          € 290<span class="unit">/mese</span>
+        </div>
+        <ul>
+          <li>1 utente attivo</li>
+          <li>2 MCP server attivabili</li>
+          <li>1.000 query/mese incluse</li>
+          <li>Claude Desktop · ChatGPT · Cursor</li>
+          <li>Setup self-service in 5 min</li>
+          <li class="disabled">SSO &amp; SAML</li>
+          <li class="disabled">Custom MCP build</li>
+          <li class="disabled">SLA &amp; supporto dedicato</li>
+        </ul>
+        <a href="#cta" class="plan-cta">Prova 14 giorni</a>
+      </article>
+
+      <article class="plan featured">
+        <span class="plan-badge">Più scelto</span>
+        <div class="plan-name">Pro</div>
+        <div class="plan-tag">Per team marketing data-driven</div>
+        <div class="plan-price">
+          <span class="from">Da</span>
+          € 1.490<span class="unit">/mese</span>
+        </div>
+        <ul>
+          <li>Fino a 10 utenti</li>
+          <li>Tutti i MCP server NDU live</li>
+          <li>50.000 query/mese incluse</li>
+          <li>Tutte le AI compatibili</li>
+          <li>Connessione a 3 sistemi tuoi (CRM, CDP, ERP)</li>
+          <li>Audit log + role-based access</li>
+          <li>Onboarding guidato (2h)</li>
+          <li class="disabled">SLA Enterprise</li>
+        </ul>
+        <a href="#cta" class="plan-cta">Parla con noi</a>
+      </article>
+
+      <article class="plan">
+        <div class="plan-name">Enterprise</div>
+        <div class="plan-tag">Per organizzazioni con esigenze complesse</div>
+        <div class="plan-price">
+          Custom
+        </div>
+        <ul>
+          <li>Utenti illimitati</li>
+          <li>Tutti i MCP server + custom build</li>
+          <li>Query illimitate</li>
+          <li>SSO / SAML / IP allowlist</li>
+          <li>Tenant isolato</li>
+          <li>SLA 99.9% + supporto dedicato</li>
+          <li>Behavioral Graph incluso</li>
+          <li>MSA con data sovereignty</li>
+        </ul>
+        <a href="#cta" class="plan-cta">Costruisci la tua offerta</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CTA STRIP ============ -->
+<section id="cta" class="cta-strip">
+  <div class="container">
+    <h2>Quattordici giorni.<br/><span class="italic">Tutto incluso.</span></h2>
+    <p>Provi il gateway con i nostri MCP server attivi. Se ti convince, scegli il piano. Se no, lo spegni. Niente carta.</p>
+    <a href="mailto:innovation@uniting.it?subject=Trial%20NDU%20MCP%20Gateway" class="btn-pill">
+      Prenota la prova
+      <span class="arrow">↗</span>
+    </a>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="container footer-inner">
+    <div class="logo">
+      <span class="shield"></span>
+      ndu <span class="tag">tech</span>
+      <span class="sep">/</span>
+      <span class="scope" style="font-size: 13px;">MCP Gateway</span>
+    </div>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="be-os.html">Be OS</a>
+      <a href="roadmap.html">Roadmap</a>
+      <a href="#catalog">Catalogo MCP</a>
+      <a href="mailto:innovation@uniting.it">Contatti</a>
+    </div>
+    <div class="footer-meta">
+      v1.0 · 29.05.2026
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ===== Filter catalogo =====
+  const catBtns = document.querySelectorAll('.cat-btn');
+  const cards = document.querySelectorAll('.mcp-card');
+  catBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      catBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const filter = btn.dataset.cat;
+      cards.forEach(card => {
+        if (filter === 'all' || card.dataset.cat === filter) {
+          card.classList.remove('hidden');
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+    });
+  });
+</script>
+
+</body>
+</html>
